@@ -1,3 +1,3 @@
 export { Currency } from "./currency";
 export { Operation } from "./operation";
-export { RestCategory } from "./restCategory";
+export { RestCategory } from "./rest_category";
