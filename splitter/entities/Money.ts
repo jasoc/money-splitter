@@ -1,7 +1,6 @@
-import { IClonable } from '../interfaces/IClonable';
-import { Currency } from '../enums/Currency';
-import { IMoney } from '../interfaces/IMoney';
-import { Human } from './Human';
+import { Human } from './human';
+import { Currency } from '../enums';
+import { IClonable, IMoney } from '../interfaces';
 
 export class Money implements IMoney, IClonable {
     amount: number;
@@ -42,5 +41,9 @@ export class Money implements IMoney, IClonable {
             currency: undefined
         },
         Human.default());
+    }
+
+    toString(): string {
+        return `${this.amount}${this.currency ?? ""}${this.quantity > 1 ? ` x${this.quantity}` : ""}`;
     }
 }

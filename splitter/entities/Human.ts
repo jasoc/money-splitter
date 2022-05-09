@@ -1,8 +1,7 @@
-import { compactMoney, deepClone, getClosestAmount, roundMoney, spreadMoney } from "../Utils";
-import { RestCategory } from "../enums/RestCategory";
-import { IEntity } from "../interfaces/IEntity";
-import { IMoney } from "../interfaces/IMoney";
-import { Money } from "./Money";
+import { Money } from "./money";
+import { IEntity, IMoney } from "../interfaces";
+import { RestCategory } from "../enums";
+import { compactMoney, deepClone, getClosestAmount, roundMoney, spreadMoney } from "../utils";
 
 export class Human implements IEntity {
     name: string;

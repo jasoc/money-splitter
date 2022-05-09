@@ -1,42 +1,43 @@
-import { IEntity } from "../interfaces/IEntity";
-import { Operation } from "../enums/Operation";
-import { Money } from "./Money";
-import { Human } from "./Human";
-import { Pot } from "./Pot";
+import { Money } from "./money";
+import { Operation } from "../enums";
+import { IEntity } from "../interfaces";
+import { compactMoney } from "../utils";
 
 export class Move {
     operation: Operation;
-    from: IEntity;
-    to: IEntity;
-    money: Money | Money[];
+    subject: IEntity;
+    destination: IEntity;
+    money: Money[];
 
-    constructor({ operation, from, to, money }: {
+    constructor({ operation, subject: from, destination: to, money }: {
         operation: Operation;
-        from: IEntity;
-        to: IEntity;
+        subject: IEntity;
+        destination: IEntity;
         money: Money | Money[];
     }) {
         this.operation = operation;
-        this.from = from;
-        this.to = to;
-        this.money = money;
+        this.subject = from;
+        this.destination = to;
+        if (money instanceof Array) {
+            this.money = compactMoney(money);
+        } else {
+            this.money = [money];
+        }
     }
 
-    repr(): string {
+    toString(): string {
         let moneyStr: string = "";
-        let infos: string = "";
         if (this.money instanceof Array) {
-            moneyStr = this.money.map(m => `${m.amount}${m.currency ?? ' money'} x ${m.quantity}`).join(", ");
+            moneyStr = this.money
+                .map(m => m.toString()).join(", ");
         }
-        else {
-            moneyStr = `${this.money.amount}${this.money.currency ?? ' money'} x ${this.money.quantity}`;
+        switch (this.operation) {
+            case Operation.gives:
+                return `${this.subject.name} gives ${moneyStr} to ${this.destination.name}`;
+            case Operation.takes:
+                return `${this.subject.name} takes ${moneyStr} from ${this.destination.name}`;
+            case Operation.pays:
+                return `${this.subject.name} pays ${moneyStr} to ${this.destination.name}`;
         }
-        if (this.from instanceof Human) {
-            infos = `[${(this.from as Human).amountToPay} - ${(this.from as Human).amountMoneyPayed()}]`;
-        }
-        if (this.from instanceof Pot) {
-            infos = `[${(this.from as Pot).amountPayed()}]`;
-        }
-        return `${this.from.name} ${infos} ${Operation[this.operation]} ${this.to.name} ${moneyStr}`;
     }
 }

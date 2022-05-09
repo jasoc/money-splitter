@@ -1,4 +1,4 @@
-import { Money } from "./entities/Money";
+import { Money } from "./entities/money";
 import * as lodash from "lodash";
 
 export function getClosestAmount(totalAmount: number, money: Money[]): Money {
