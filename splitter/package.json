@@ -7,9 +7,13 @@
       "type": "git",
       "url": "https://github.com/jasoc/money-splitter.git"
     },
+    "publishConfig": {
+      "access": "public"
+    },
     "version": "1.0.0",
     "license": "MIT",
-    "main": "dist/index.js",
+    "main": "src/index.js",
+    "types": "src/index.d.ts",
     "scripts": {
         "build": "tsc",
         "build:prod": "npm run build",
