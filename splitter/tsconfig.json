@@ -7,7 +7,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "./dist/tsc",
+    "outDir": "./dist",
     "rootDir": "./",
     "strict": true,
     "noUnusedLocals": true,

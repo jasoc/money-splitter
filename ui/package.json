@@ -4,19 +4,22 @@
     "homepage": "https://github.com/jasoc/money-splitter",
     "author": "Paride Giunta <paridegiunta@gmail.com>",
     "repository": {
-      "type": "git",
-      "url": "https://github.com/jasoc/money-splitter.git"
+        "type": "git",
+        "url": "https://github.com/jasoc/money-splitter.git"
     },
     "version": "1.0.0",
     "license": "MIT",
     "main": "src/main.js",
     "scripts": {
+        "start": "npm run build && npm run serve",
+        "start:watch": "run-p build:watch serve:watch",
         "build": "tsc",
+        "build:prod": "npm run build && npm run rollup",
         "build:watch": "tsc --watch",
         "serve": "wds",
         "serve:watch": "wds --watch",
         "serve:prod": "MODE=prod npm run serve",
-
+        "rollup": "rollup -c",
         "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
         "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
         "lint:eslint": "eslint 'src/**/*.ts'",
@@ -40,20 +43,17 @@
         "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js"
     },
     "dependencies": {
-        "lit": "^2.1.0",
-        "@types/lodash": "^4.14.182",
-        "lodash": "^4.17.21",
-        "tslib": "^2.4.0",
-        "typescript": "^4.6.4"
-      },
-      "devDependencies": {
+        "@web/rollup-plugin-html": "^1.10.3",
+        "lit": "^2.1.0"
+    },
+    "devDependencies": {
         "@11ty/eleventy": "^0.12.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
         "@custom-elements-manifest/analyzer": "^0.5.7",
         "@esm-bundle/chai": "^4.1.5",
         "@open-wc/testing": "^3.0.0-next.1",
         "@open-wc/testing-karma": "^4.0.9",
-        "@rollup/plugin-node-resolve": "^13.0.4",
+        "@rollup/plugin-node-resolve": "^13.3.0",
         "@rollup/plugin-replace": "^3.0.0",
         "@types/mocha": "^9.0.0",
         "@typescript-eslint/eslint-plugin": "^4.3.0",
@@ -71,9 +71,9 @@
         "mocha": "^9.1.1",
         "prettier": "^2.3.2",
         "rimraf": "^3.0.2",
-        "rollup": "^2.70.2",
+        "rollup": "^2.72.1",
         "rollup-plugin-summary": "^1.2.3",
         "rollup-plugin-terser": "^7.0.2",
-        "typescript": "^4.3.5"
-      }
-  }
+        "typescript": "^4.6.4"
+    }
+}

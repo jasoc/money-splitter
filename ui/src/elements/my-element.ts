@@ -13,7 +13,7 @@ export class MyElement extends LitElement {
   `;
 
   @property()
-  name = 'World';
+  name = 'sss';
 
   @property({type: Number})
   count = 0;

@@ -1,9 +1,1 @@
-dist
-node_modules
-*.map.js
-*.js
-*.d.ts
-*.map
-*.log
-!web-dev-server.config.js
-!web-test-runner.config.js
+try.*

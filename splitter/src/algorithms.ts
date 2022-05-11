@@ -1,6 +1,6 @@
 import { Human, Move, Pot } from "./entities";
 import { Operation } from "./enums";
-import { compactMoney, getClosestLowerAmount, roundMoney, spreadMoney } from "./utils";
+import { compactMoney, getClosestLowerAmount, spreadMoney } from "./utils";
 
 export function resolveAllRestLinear(people: Human[]): Pot {
     let totalAmount: number = 0;
@@ -48,7 +48,11 @@ export function resolveAllRestLinear(people: Human[]): Pot {
 
     pot.moneyPayed = spreadMoney(pot.moneyPayed);
 
-    for (let person of pot.people.filter(p => p.rest != 0).sort((a, b) => b.rest - a.rest)) {
+    let ppl = pot.people
+        .filter(p => p.rest != 0)
+        .sort((a, b) => b.rest - a.rest);
+
+    for (let person of ppl) {
         while (person.rest != 0 && pot.amountPayed() >= pot.totalAmount) {
             const amount = getClosestLowerAmount(person.rest, pot.moneyPayed);
        
