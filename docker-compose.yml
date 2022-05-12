@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  webapp:
+    container_name: money-splitter
+    build: .
+    ports:
+      - "80:80"

@@ -23,7 +23,6 @@
     "start:watch": "run-p build:watch serve:watch",
     "serve:watch": "npm run serve:watch:ui",
     "build:watch": "run-p build:watch:splitter build:watch:ui",
-    
     "start:ui": "cd ui && npm run start",
     "serve:ui": "cd ui && npm run serve",
     "build:ui": "cd ui && npm run build",
