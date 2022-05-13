@@ -1,24 +1,15 @@
 {
-    "name": "@money-splitter/ui",
-    "description": "A library for splitting money between multiple people",
-    "homepage": "https://github.com/jasoc/money-splitter",
-    "author": "Paride Giunta <paridegiunta@gmail.com>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/jasoc/money-splitter.git"
-    },
-    "version": "1.0.0",
+    "name": "@msplitter/webapp",
     "license": "MIT",
-    "main": "src/main.js",
+    "description": "A webapp for splitting and organize money between multiple people, written in TypeScript using Lit.",
+    "author": "Paride Giunta <paridegiunta@gmail.com>",
     "scripts": {
         "start": "npm run build && npm run serve",
         "start:watch": "run-p build:watch serve:watch",
         "build": "tsc",
-        "build:prod": "npm run build && npm run rollup",
         "build:watch": "tsc --watch",
         "serve": "wds",
         "serve:watch": "wds --watch",
-        "serve:prod": "MODE=prod npm run serve",
         "rollup": "rollup -c",
         "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
         "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -44,7 +35,9 @@
     },
     "dependencies": {
         "@money-splitter/splitter": "*",
-        "lit": "^2.1.0"
+        "lit": "^2.1.0",
+        "node-sass": "^7.0.1",
+        "rollup-plugin-scss": "^3.0.0"
     },
     "devDependencies": {
         "@11ty/eleventy": "^0.12.1",
@@ -61,6 +54,7 @@
         "@web/dev-server": "^0.1.22",
         "@web/dev-server-legacy": "^0.1.4",
         "@web/dev-server-rollup": "^0.3.9",
+        "@web/rollup-plugin-html": "^1.10.3",
         "@web/test-runner": "^0.13.16",
         "@web/test-runner-mocha": "^0.7.4",
         "@web/test-runner-playwright": "^0.8.4",
@@ -73,7 +67,6 @@
         "rimraf": "^3.0.2",
         "rollup": "^2.72.1",
         "rollup-plugin-summary": "^1.2.3",
-        "@web/rollup-plugin-html": "^1.10.3",
         "rollup-plugin-terser": "^7.0.2",
         "typescript": "^4.6.4"
     }

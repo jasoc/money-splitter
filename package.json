@@ -10,7 +10,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "workspaces": [
-    "ui",
+    "webapp",
     "splitter"
   ],
   "private": true,
@@ -18,8 +18,7 @@
     "start": "npm run build && npm run serve",
     "serve": "npm run serve:ui",
     "build": "npm run build:splitter && npm run build:ui",
-    "build:prod": "npm run build:prod:splitter && npm run build:prod:ui",
-    
+    "build:prod": "yarn workspace @msplitter/splitter run build && yarn workspace @msplitter/splitter run rollup && yarn workspace @msplitter/webapp run build:prod",
     "start:watch": "run-p build:watch serve:watch",
     "serve:watch": "npm run serve:watch:ui",
     "build:watch": "run-p build:watch:splitter build:watch:ui",
@@ -27,15 +26,12 @@
     "serve:ui": "cd ui && npm run serve",
     "build:ui": "cd ui && npm run build",
     "build:prod:ui": "cd ui && npm run build:prod",
-    
     "start:watch:ui": "cd ui && npm run start:watch",
     "serve:watch:ui": "cd ui && npm run serve --watch",
     "build:watch:ui": "cd ui && npm run build:watch",
-
     "build:splitter": "cd splitter && npm run build",
     "build:prod:splitter": "cd splitter && npm run build:prod",
     "build:watch:splitter": "cd splitter && npm run build:watch",
-
     "clean": "rimraf **/*.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
