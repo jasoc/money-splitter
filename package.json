@@ -1,14 +1,14 @@
 {
+  "version": "1.0.0",
   "name": "money-splitter",
-  "description": "A library for splitting money between multiple people",
-  "homepage": "https://github.com/jasoc/money-splitter",
+  "license": "MIT",
+  "description": "Split your money when you pay if ur dumb a math! 🙉🚀",
   "author": "Paride Giunta <paridegiunta@gmail.com>",
+  "homepage": "https://github.com/jasoc/money-splitter",
   "repository": {
     "type": "git",
     "url": "https://github.com/jasoc/money-splitter.git"
   },
-  "version": "1.0.0",
-  "license": "MIT",
   "workspaces": [
     "webapp",
     "splitter"
