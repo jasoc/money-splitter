@@ -1,21 +1,21 @@
 {
   "version": "1.0.0",
-  "name": "@msplitter/splitter",
+  "name": "@money-splitter/splitter",
   "license": "MIT",
   "description": "A library for splitting money between multiple people",
   "author": "Paride Giunta <paridegiunta@gmail.com>",
   "publishConfig": {
     "access": "public"
   },
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "dev": "tsc --watch"
   },
   "dependencies": {
     "@types/lodash": "^4.14.182",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "typescript": "^4.6.4",

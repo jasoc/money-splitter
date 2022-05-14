@@ -1,4 +1,5 @@
 import { legacyPlugin } from '@web/dev-server-legacy';
+import { chromeLauncher } from '@web/test-runner';
 
 const mode = process.env.MODE || 'dev';
 if (!['dev', 'prod'].includes(mode)) {
@@ -8,8 +9,8 @@ if (!['dev', 'prod'].includes(mode)) {
 export default {
   nodeResolve: { exportConditions: mode === 'dev' ? ['development'] : [] },
   preserveSymlinks: true,
-  appIndex: 'src/index.html',
-  rootDir: 'src',
+  appIndex: 'dist/rollup/index.html',
+  rootDir: 'dist/rollup',
   plugins: [
     legacyPlugin({
       polyfills: {
@@ -17,4 +18,7 @@ export default {
       },
     }),
   ],
+  browsers: [chromeLauncher({ launchOptions: {
+    args: ['--no-sandbox'],
+  }})],
 };

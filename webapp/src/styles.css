@@ -1,4 +1,8 @@
+@import '../../node_modules/material-icons/iconfont/material-icons.css';
+@import './styles/fonts.css';
+
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto Flex';
 }

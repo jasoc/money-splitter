@@ -1,0 +1,16 @@
+{
+    "short_name": "Money Splitter",
+    "name": "Split your money when you pay if ur dumb a math! 🙉🚀",
+    "icons": [
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#3367D6",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6",
+    "shortcuts": [
+    ],
+    "description": "Split your money when you pay if ur dumb a math! 🙉🚀",
+    "screenshots": [
+    ]
+  }
