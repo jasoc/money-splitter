@@ -3,7 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('mat-icon')
 export class MatIcon extends LitElement {
-
   static override styles = css`
     :host {
       font-family: "Material Icons Outlined";

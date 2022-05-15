@@ -17,3 +17,8 @@ export const robotoFlexRegular = css`
     font-family: 'Roboto Flex';
     font-variation-settings: "wdth" 100, "wght" 500;
 `;
+
+export const robotoFlexlight = css`
+    font-family: 'Roboto Flex';
+    font-variation-settings: "wdth" 100, "wght" 500;
+`;

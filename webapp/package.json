@@ -18,7 +18,10 @@
     "rollup-watch": "rollup -c -w"
   },
   "dependencies": {
+    "@material/ripple": "^14.0.0",
     "@money-splitter/splitter": "*",
+    "@polymer/paper-ripple": "^3.0.2",
+    "@vaadin/router": "^1.7.4",
     "autoprefixer": "^10.4.7",
     "lit": "^2.1.0",
     "material-icons": "^1.10.11",

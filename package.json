@@ -19,7 +19,7 @@
     "dev": "run-p dev-webapp dev-splitter",
     "dev-webapp": "yarn workspace @money-splitter/webapp run dev",
     "dev-splitter": "yarn workspace @money-splitter/splitter run dev",
-    "build": "npm run build-splitter && npm run build-webapp",
+    "build": "npm run build-webapp",
     "soft-build": "yarn workspace @money-splitter/webapp run postcss && yarn workspace @money-splitter/webapp run rollup",
     "build-webapp": "yarn workspace @money-splitter/webapp run build",
     "build-splitter": "yarn workspace @money-splitter/splitter run build",

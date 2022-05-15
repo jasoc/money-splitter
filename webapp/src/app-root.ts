@@ -1,58 +1,63 @@
-import { html, css } from "lit";
+import { html, css, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementThemable } from "./lit-components";
 import { Themes } from "./services";
-import { Colors } from "./styles";
 
+import { Colors } from "./styles";
+import { initRouter } from './routes';
+import "./elements";
 import "./top-bar";
 
 @customElement("app-root")
 export class AppRoot extends LitElementThemable {
   constructor() {
     super();
-    this.registerThemes();
+    setTimeout(() => initRouter());
   }
 
-  registerThemes() {
-    this.registerFor(Themes.dark, [
-      ["background-color", Colors.backgroundDark],
-    ]);
-    this.registerFor(Themes.light, [
-      ["background-color", Colors.backgroundLight],
-    ]);
+  override createRenderRoot() {
+    return this;
   }
 
-  static override styles = css`
-    #app-root {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  override themedCSS() {
+    return [
+      {
+        theme: Themes.dark,
+        css: css`
+          #app-root {
+            background-color: ${unsafeCSS(Colors.backgroundDark)};
+          }
+        `
+      },
+      {
+        theme: Themes.light,
+        css: css`
+          #app-root {
+            background-color: ${unsafeCSS(Colors.backgroundLight)};
+          }
+        `
+      }
+    ]
+  }
 
-    #app-main {
-      animation-duration: 100ms;
-    }
-
-    top-bar {
-      position: sticky;
-      top: 0;
-      left: 0;
-      right: 0;
-    }
-  `;
-
-  override render() {
+  override html() {
     return html`
-      <div id="app-root">
-        <top-bar></top-bar>
-
-        <div
-          id="app-main"
-          style="${this.getAllValues()}"
-        >
-          ${[...Array(1000).keys()].map((el) => html`<div>${el}</div>`)}
-        </div>
+      <div
+        id="app-root"
+        style="
+          width: 100%;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        ">
+        <top-bar
+          style="
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+          "></top-bar>
+        <div id="router"></div>
       </div>
     `;
   }
