@@ -1,25 +1,40 @@
-import { Themes } from "./theme";
+import { Human, Pot } from "@money-splitter/splitter";
+import { Observable } from 'object-observer';
+import { Themes } from "../types";
+import { Services } from "./services";
 
-class Storage {
-    currentTheme: Themes;
-
-    constructor() {
-        this.currentTheme = Themes.default;
-    }
+interface StorageProperties {
+  currentTheme: Themes;
 }
 
 export class StorageService {
-    private lsKey: string = "moneySPlitterStorage";
+  public set: StorageProperties;
 
-    get storage(): Storage {
-        let ls = localStorage.getItem(this.lsKey);
-        if (ls == null) {
-            return new Storage();
-        }
-        return <Storage>JSON.parse(ls);
-    }
+  constructor() {
+    const obs = Observable.from(this.getDefaultStorage());
+    Observable.observe(obs, () => this.updateLocalStorageJson());
+    this.set = obs;
+  }
 
-    set storageSet(storage: Storage) {
-        localStorage.setItem(this.lsKey, JSON.stringify(storage));
+  initialSet(): void {
+    Services.theme.selectedTheme = this.get.currentTheme;
+  }
+
+  getDefaultStorage(): StorageProperties {
+    return {
+      currentTheme: Themes.dark
+    };
+  }
+
+  public get get(): StorageProperties {
+    const read: string | null = localStorage.getItem("moneySPlitterStorage");
+    if (read) {
+      return <StorageProperties>JSON.parse(read);
     }
+    return this.getDefaultStorage();
+  }
+
+  private updateLocalStorageJson() {
+    localStorage.setItem("moneySPlitterStorage", JSON.stringify(this.set));
+  }
 }

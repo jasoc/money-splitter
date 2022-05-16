@@ -17,6 +17,7 @@ export class Services {
     static get storage(): StorageService {
         if (Services._storage == null) {
             Services._storage = new StorageService();
+            Services._storage.initialSet();
         }
         return Services._storage;
     }

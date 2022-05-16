@@ -1,8 +1,8 @@
 import { html, css, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementThemable, ThemeRule } from "../lit-components";
-import { Themes } from "../services";
 import { Colors } from "../styles";
+import { Themes } from "../types";
 
 @customElement("app-about")
 export class AppAbout extends LitElementThemable {

@@ -1,8 +1,5 @@
-export enum Themes {
-    dark,
-    light,
-    default = dark
-}
+import { Themes } from "../types";
+import { Services } from "./services";
 
 export class ThemeService {
     private _selectedTheme: Themes = Themes.dark;
@@ -13,6 +10,7 @@ export class ThemeService {
         for (let event of this._themeChangedEvents) {
             event(value);
         }
+        Services.storage.set.currentTheme = value;
     }
 
     public get selectedTheme() {

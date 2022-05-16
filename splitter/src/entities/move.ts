@@ -1,7 +1,7 @@
 import { Money } from "./money";
 import { Operation } from "../enums";
 import { IEntity } from "../interfaces";
-import { compactMoney } from "../utils";
+import { Utils } from "../utils";
 
 export class Move {
     operation: Operation;
@@ -19,7 +19,7 @@ export class Move {
         this.subject = from;
         this.destination = to;
         if (money instanceof Array) {
-            this.money = compactMoney(money);
+            this.money = Utils.compactMoney(money);
         } else {
             this.money = [money];
         }

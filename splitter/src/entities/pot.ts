@@ -3,7 +3,7 @@ import { Human } from "./human";
 import { Money } from "./money";
 import { IEntity } from "../interfaces";
 import { RestCategory } from "../enums";
-import { roundMoney } from "../utils";
+import { Utils } from "../utils";
 
 export class Pot implements IEntity {
     name: string = "Pot";
@@ -73,6 +73,6 @@ export class Pot implements IEntity {
     }
 
     rest(): number {
-        return roundMoney(this.amountPayed() - this.totalAmount);
+        return Utils.roundMoney(this.amountPayed() - this.totalAmount);
     }
 }

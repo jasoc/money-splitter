@@ -1,11 +1,13 @@
 import { html, css, unsafeCSS } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Services, Themes } from './services';
+import { Services } from './services';
 import { LitElementThemable, ThemeRule } from './lit-components';
 
 import './elements/mat-button';
 import './elements/div-spacer';
+
 import { Colors } from './styles';
+import { Themes } from './types';
 
 @customElement('top-bar')
 export class TopBar extends LitElementThemable {
@@ -112,7 +114,7 @@ export class TopBar extends LitElementThemable {
   `;
   }
 
-  theme: string = Themes[Services.theme.selectedTheme];
+  theme: string = Themes[Services.storage.set.currentTheme];
 
   getThemeIcon() {
     return Services.theme.selectedTheme === Themes.dark ? 'dark_mode' : 'brightness_low';
@@ -123,8 +125,8 @@ export class TopBar extends LitElementThemable {
   }
 
   onClickToggleTheme() {
-    Services.theme.selectedTheme = Services.theme.selectedTheme === Themes.dark ? Themes.light : Themes.dark;
-    this.theme = Themes[Services.theme.selectedTheme];
+    Services.theme.selectedTheme = Services.storage.set.currentTheme === Themes.dark ? Themes.light : Themes.dark;
+    this.theme = Themes[Services.storage.set.currentTheme];
   }
 }
 

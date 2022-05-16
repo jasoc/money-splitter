@@ -1,7 +1,7 @@
 import { Money } from "./money";
 import { IEntity, IMoney } from "../interfaces";
 import { RestCategory } from "../enums";
-import { compactMoney, deepClone, getClosestAmount, roundMoney, spreadMoney } from "../utils";
+import { Utils } from "../utils";
 
 export class Human implements IEntity {
     name: string;
@@ -11,24 +11,24 @@ export class Human implements IEntity {
 
     constructor({ name, amountToPay, money }: { name: string, amountToPay: number, money: IMoney[] }) {
         this.name = name;
-        this.amountToPay = roundMoney(amountToPay);
+        this.amountToPay = Utils.roundMoney(amountToPay);
         this.money = money
             .map(m => new Money(m, this))
             .sort((a, b) => b.amount - a.amount)
             .reverse();
-        this.initialMoney = deepClone(this.money);
+        this.initialMoney = Utils.deepClone(this.money);
     }
 
     static default(): Human {
         return new Human({
             name: "Name",
             amountToPay: 0,
-            money: [Money.default()]
+            money: []
         });
     }
 
     get rest(): number {
-        return roundMoney(this.amountMoneyPayed() - this.amountToPay);
+        return Utils.roundMoney(this.amountMoneyPayed() - this.amountToPay);
     }
 
     getMoney(money: IMoney): void {
@@ -65,7 +65,7 @@ export class Human implements IEntity {
         for (let m of this.money) {
             nowCnt += m.amount * m.quantity;
         }
-        return roundMoney(roundMoney(initCnt) - roundMoney(nowCnt));
+        return Utils.roundMoney(Utils.roundMoney(initCnt) - Utils.roundMoney(nowCnt));
     }
 
     topMoney(threshold: number): Money[] {
@@ -97,19 +97,19 @@ export class Human implements IEntity {
     rightAmountMoney(): Money[] {
         let cnt: number = this.amountToPay;
         let res: Money[] = [];
-        let moneyClone = deepClone(spreadMoney(this.money));
+        let moneyClone = Utils.deepClone(Utils.spreadMoney(this.money));
         
         while (cnt > 0) {
-            const amount = getClosestAmount(cnt, moneyClone);
+            const amount = Utils.getClosestAmount(cnt, moneyClone);
             if (!amount) {
                 break;
             }
             moneyClone.splice(moneyClone.indexOf(amount), 1);
             cnt -= amount.amount;
             res.push(amount);
-            cnt = roundMoney(cnt);
+            cnt = Utils.roundMoney(cnt);
         }
-        return compactMoney(res);
+        return Utils.compactMoney(res);
     }
 
     removeMoney(...money: Money[]): void {

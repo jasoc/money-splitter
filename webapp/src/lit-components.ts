@@ -1,10 +1,10 @@
 import { css, CSSResult, html, LitElement, TemplateResult } from "lit";
 import { state } from "lit/decorators.js";
-import { Services, Themes } from "./services";
+import { Services } from "./services";
+import { Themes } from "./types";
 
 export class LitElementComponent extends LitElement {
   
-
   constructor() {
     super();
   }
@@ -57,6 +57,9 @@ export abstract class LitElementThemable extends LitElementComponent {
   override render() {
     return html`
       <style>
+        * {
+          transition-duration: 0.2s;
+        }
         ${this.getCssFor(Services.theme.selectedTheme)}
       </style>
       ${this.html()}

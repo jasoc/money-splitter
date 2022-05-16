@@ -4,7 +4,9 @@ import copy from 'rollup-plugin-copy'
 
 export default {
   input: 'src/index.html',
-  output: { dir: 'dist/rollup' },
+  output: {
+    dir: 'dist/rollup',
+  },
   plugins: [
     nodeResolve(),
     html({

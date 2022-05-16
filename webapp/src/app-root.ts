@@ -1,18 +1,18 @@
 import { html, css, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementThemable } from "./lit-components";
-import { Themes } from "./services";
 
 import { Colors } from "./styles";
 import { initRouter } from './routes';
 import "./elements";
 import "./top-bar";
+import { Themes } from "./types";
 
 @customElement("app-root")
 export class AppRoot extends LitElementThemable {
   constructor() {
     super();
-    setTimeout(() => initRouter());
+    setTimeout(() => initRouter(document.getElementById('router')));
   }
 
   override createRenderRoot() {

@@ -1,6 +1,6 @@
 import { Human, Move, Pot } from "./entities";
 import { Operation } from "./enums";
-import { compactMoney, getClosestLowerAmount, spreadMoney } from "./utils";
+import { Utils } from "./utils";
 
 export function resolveAllRestLinear(people: Human[]): Pot {
     let totalAmount: number = 0;
@@ -32,10 +32,10 @@ export function resolveAllRestLinear(people: Human[]): Pot {
     // some rest left.
 
     for (let person of pot.people) {
-        const rightAmountMoney = spreadMoney(person.rightAmountMoney());
+        const rightAmountMoney = Utils.spreadMoney(person.rightAmountMoney());
         
         pot.moneyPayed.push(...rightAmountMoney);
-        person.money = spreadMoney(person.money);
+        person.money = Utils.spreadMoney(person.money);
         person.removeMoney(...rightAmountMoney);
 
         pot.moves.push(new Move({
@@ -46,7 +46,7 @@ export function resolveAllRestLinear(people: Human[]): Pot {
         }));
     }
 
-    pot.moneyPayed = spreadMoney(pot.moneyPayed);
+    pot.moneyPayed = Utils.spreadMoney(pot.moneyPayed);
 
     let ppl = pot.people
         .filter(p => p.rest != 0)
@@ -54,7 +54,7 @@ export function resolveAllRestLinear(people: Human[]): Pot {
 
     for (let person of ppl) {
         while (person.rest != 0 && pot.amountPayed() >= pot.totalAmount) {
-            const amount = getClosestLowerAmount(person.rest, pot.moneyPayed);
+            const amount = Utils.getClosestLowerAmount(person.rest, pot.moneyPayed);
        
             if (!amount) {
                 break;
@@ -81,7 +81,7 @@ export function resolveAllRestLinear(people: Human[]): Pot {
         }
     }
 
-    pot.moneyPayed = compactMoney(pot.moneyPayed);
+    pot.moneyPayed = Utils.compactMoney(pot.moneyPayed);
 
     return pot;
 }

@@ -1,8 +1,8 @@
 import { Router } from '@vaadin/router';
 import './pages';
 
-export function initRouter() {
-  const router = new Router(document.getElementById('router'));
+export function initRouter(element: HTMLElement | null) {
+  const router = new Router(element);
   router.setRoutes([
     {
       path: '/',
