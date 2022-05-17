@@ -1,17 +1,16 @@
-import { html, css, unsafeCSS } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { Services } from './services';
-import { LitElementThemable, ThemeRule } from './lit-components';
+import { html, css, unsafeCSS } from "lit";
+import { customElement } from "lit/decorators.js";
+import { Services } from "./services";
+import { LitElementThemable, ThemeRule } from "./lit-components";
 
-import './elements/mat-button';
-import './elements/div-spacer';
+import "./elements/mat-button";
+import "./elements/div-spacer";
 
-import { Colors } from './styles';
-import { Themes } from './types';
+import { Colors, Sizes } from "./styles";
+import { SizeState, Themes } from "./types";
 
-@customElement('top-bar')
+@customElement("top-bar")
 export class TopBar extends LitElementThemable {
-
   themedCSS(): ThemeRule[] {
     return [
       {
@@ -22,9 +21,9 @@ export class TopBar extends LitElementThemable {
           }
 
           #top-bar .title {
-            color: ${unsafeCSS(Colors.fontDark)}
+            color: ${unsafeCSS(Colors.fontDark)};
           }
-        `
+        `,
       },
       {
         theme: Themes.light,
@@ -34,11 +33,11 @@ export class TopBar extends LitElementThemable {
           }
 
           #top-bar .title {
-            color: ${unsafeCSS(Colors.fontLight)}
+            color: ${unsafeCSS(Colors.fontLight)};
           }
-        `
-      }
-    ]
+        `,
+      },
+    ];
   }
 
   static override styles = css`
@@ -47,10 +46,14 @@ export class TopBar extends LitElementThemable {
       display: flex;
     }
 
+    @media screen and (max-width: 992px) {
+
+    }
+
     #top-bar .title {
       font-size: 1.5em;
       margin: 0;
-      font-variation-settings: 'wdth' 120;
+      font-variation-settings: "wdth" 120;
     }
 
     .top-bar_left {
@@ -71,67 +74,78 @@ export class TopBar extends LitElementThemable {
     }
   `;
 
-  html() {
+  override html() {
     return html`
-    <div id="top-bar">
-      <div-spacer size="200px"></div-spacer>
-      <div class="top-bar_left">
-        <h3 class="title">
-          Money splitter
-        </h3>
+      <div id="top-bar">
+
+        ${this.sizeState == SizeState.desktop ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>` : ""}
+
+        <div class="top-bar_left">
+          <h3 class="title">Money splitter</h3>
+        </div>
+
+        <div class="top-bar_right">
+          <mat-button
+            icon="home"
+            ?underline=${true}
+            text="Home"
+            @click="${() => (location.href = "home")}"
+            color="${this.getThemeIconColor()}"
+            background="none"
+          >
+          </mat-button>
+
+          <mat-button
+            icon="lightbulb"
+            ?underline=${true}
+            text="About"
+            @click="${() => (location.href = "about")}"
+            color="${this.getThemeIconColor()}"
+            background="none"
+          >
+          </mat-button>
+
+          <mat-button
+            class="theme-toggle"
+            @click=${this.onClickToggleTheme}
+            icon="${this.getThemeIcon()}"
+            color="${this.getThemeIconColor()}"
+            background="none"
+          >
+          </mat-button>
+        </div>
+
+        ${this.sizeState == SizeState.desktop ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>` : ""}
+
       </div>
-      <div class="top-bar_right">
-      
-        <mat-button
-          icon="home"
-          ?underline=${true}
-          text="Home"
-          @click="${() => location.href = 'home'}"
-          color="${this.getThemeIconColor()}"
-          background="none">
-        </mat-button>
-
-        <mat-button
-          icon="lightbulb"
-          ?underline=${true}
-          text="About"
-          @click="${() => location.href = 'about'}"
-          color="${this.getThemeIconColor()}"
-          background="none">
-        </mat-button>
-
-        <mat-button
-          class="theme-toggle"
-          @click=${this.onClickToggleTheme}
-          icon="${this.getThemeIcon()}"
-          color="${this.getThemeIconColor()}"
-          background="none">
-        </mat-button>
-
-      </div>
-      <div-spacer size="200px"></div-spacer>
-    </div>
-  `;
+    `;
   }
 
   theme: string = Themes[Services.storage.set.currentTheme];
 
   getThemeIcon() {
-    return Services.theme.selectedTheme === Themes.dark ? 'dark_mode' : 'brightness_low';
+    return Services.theme.selectedTheme === Themes.dark
+      ? "dark_mode"
+      : "brightness_low";
   }
 
   getThemeIconColor() {
-    return Services.theme.selectedTheme === Themes.dark ? Colors.fontDark : Colors.fontLight;
+    return Services.theme.selectedTheme === Themes.dark
+      ? Colors.fontDark
+      : Colors.fontLight;
   }
 
   onClickToggleTheme() {
-    Services.theme.selectedTheme = Services.storage.set.currentTheme === Themes.dark ? Themes.light : Themes.dark;
+    Services.theme.selectedTheme =
+      Services.storage.set.currentTheme === Themes.dark
+        ? Themes.light
+        : Themes.dark;
     this.theme = Themes[Services.storage.set.currentTheme];
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'top-bar': TopBar;
+    "top-bar": TopBar;
   }
 }

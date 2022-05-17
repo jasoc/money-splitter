@@ -1,45 +1,36 @@
 import { html, css, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementThemable, ThemeRule } from "../lit-components";
-import { Colors } from "../styles";
+import { Colors, Sizes } from "../styles";
 import "../elements/div-spacer";
 import "../elements/mat-button";
 import { Themes } from "../types";
 
 @customElement("app-home")
 export class AppHome extends LitElementThemable {
+
+  constructor() {
+    super();
+
+  }
+
   static override styles = css`
     #home {
-      display: flex;
-      flex-direction: column;
+      height: 100%;
     }
-    #home #hero {
-      height: 40vw;
+
+    #hero {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-template-rows: 10vh auto;
+    }
+
+    #hero #hero__text {
+      grid-column: 2;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-    }
-
-    #home #hero h1 {
-      font-size: 5em;
-    }
-
-    #home #hero h1 {
-      font-size: 3em;
-    }
-
-    .cards {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-    }
-
-    .hero-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 50%;
     }
   `;
 
@@ -70,23 +61,12 @@ export class AppHome extends LitElementThemable {
     return html`
       <div id="home">
         <div id="hero">
-          <div class="cards">
-            <div class="hero-card" style="align-items: center">
-              <h1>Money splitter</h1>
-              <div-spacer sizev="35px"></div-spacer>
-              <h2>Split your money when you pay if ur dumb a math! 🙉🚀</h2>
-            </div>
-            <div-spacer size="100px"></div-spacer>
-            <div class="hero-card" style="align-items: flex-start">
-              <mat-button
-                @click=${this.onClick}
-                text="Start splitting"
-                icon="horizontal_split"
-                background="#1b913c"
-                border="shadow"
-              ></mat-button>
-            </div>
+          <div style="grid-column: 1; grid-row: 2; width: ${Sizes.sideGap}"></div>
+          <div id="hero__text" style="grid-row: 2; width: calc(100vw - ${Sizes.sideGap} - ${Sizes.sideGap})">
+            <h1>Ciao</h1>
+            <h2>Coglione</h2>
           </div>
+          <div style="grid-column: 3; grid-row: 2; width: ${Sizes.sideGap}"></div>
         </div>
       </div>
     `;

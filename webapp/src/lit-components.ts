@@ -1,31 +1,35 @@
 import { css, CSSResult, html, LitElement, TemplateResult } from "lit";
 import { state } from "lit/decorators.js";
 import { Services } from "./services";
-import { Themes } from "./types";
+import { Themes, SizeState } from "./types";
 
-export class LitElementComponent extends LitElement {
-  
-  constructor() {
-    super();
-  }
-
-  @state()
-  private _toggle: boolean = false;
-
-  toggle() {
-    this._toggle = !this._toggle;
-  }
-}
 
 export interface ThemeRule {
   theme: Themes;
   css: CSSResult;
 }
 
-export abstract class LitElementThemable extends LitElementComponent {
-  
+export abstract class LitElementThemable extends LitElement {
   private static _instances: LitElementThemable[] = [];
+  
+  private _sizeState: SizeState = SizeState.desktop;
 
+  public get sizeState(): SizeState {
+    return this._sizeState;
+  }
+
+  private set sizeState(newState: SizeState) {
+    if (newState == this._sizeState) {
+      return;
+    }
+    this._sizeState = newState;
+    this.requestUpdate();
+  }
+
+  public isDesktop(): boolean {
+    return window.innerWidth < 900;
+  }
+  
   constructor() {
     super();
 
@@ -33,26 +37,37 @@ export abstract class LitElementThemable extends LitElementComponent {
       Services.theme.registerEventOnChange(this.toggleAllThemable);
     }
     LitElementThemable._instances.push(this);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < window.innerHeight) {
+        this.sizeState = SizeState.mobile;
+      } else {
+        this.sizeState = SizeState.desktop;
+      }
+    });
   }
 
   abstract themedCSS(): ThemeRule[];
-  
-  abstract html(): TemplateResult;
 
   toggleAllThemable() {
     LitElementThemable._instances.forEach((el) => {
-      el.toggle();
+      el.requestUpdate();
     });
   }
 
   getCssFor(theme: Themes): CSSResult {
-    let src = this.themedCSS()
-      .filter((rule) => rule.theme == theme);
+    let src = this.themedCSS().filter((rule) => rule.theme == theme);
     if (src.length > 0) {
       return src[0].css;
     }
     return css``;
   }
+
+  css(): CSSResult {
+    return css``;
+  }
+
+  abstract html(): TemplateResult;
 
   override render() {
     return html`
@@ -60,6 +75,7 @@ export abstract class LitElementThemable extends LitElementComponent {
         * {
           transition-duration: 0.2s;
         }
+        ${this.css()}
         ${this.getCssFor(Services.theme.selectedTheme)}
       </style>
       ${this.html()}

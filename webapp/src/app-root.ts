@@ -3,7 +3,7 @@ import { customElement } from "lit/decorators.js";
 import { LitElementThemable } from "./lit-components";
 
 import { Colors } from "./styles";
-import { initRouter } from './routes';
+import { initRouter } from "./routes";
 import "./elements";
 import "./top-bar";
 import { Themes } from "./types";
@@ -12,11 +12,7 @@ import { Themes } from "./types";
 export class AppRoot extends LitElementThemable {
   constructor() {
     super();
-    setTimeout(() => initRouter(document.getElementById('router')));
-  }
-
-  override createRenderRoot() {
-    return this;
+    setTimeout(() => initRouter(this.shadowRoot!.getElementById("router")));
   }
 
   override themedCSS() {
@@ -27,7 +23,7 @@ export class AppRoot extends LitElementThemable {
           #app-root {
             background-color: ${unsafeCSS(Colors.backgroundDark)};
           }
-        `
+        `,
       },
       {
         theme: Themes.light,
@@ -35,28 +31,31 @@ export class AppRoot extends LitElementThemable {
           #app-root {
             background-color: ${unsafeCSS(Colors.backgroundLight)};
           }
-        `
-      }
-    ]
+        `,
+      },
+    ];
   }
+
+  static override styles = css`
+    #app-root {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    top-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+  `;
 
   override html() {
     return html`
-      <div
-        id="app-root"
-        style="
-          width: 100%;
-          height: 100vh;
-          display: flex;
-          flex-direction: column;
-        ">
-        <top-bar
-          style="
-            position: sticky;
-            top: 0;
-            left: 0;
-            right: 0;
-          "></top-bar>
+      <div id="app-root">
+        <top-bar></top-bar>
         <div id="router"></div>
       </div>
     `;
