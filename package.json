@@ -11,7 +11,8 @@
   },
   "workspaces": [
     "splitter",
-    "webapp"
+    "webapp",
+    "tests"
   ],
   "private": true,
   "scripts": {

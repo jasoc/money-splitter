@@ -1,33 +1,9 @@
 import { css, CSSResult, html, LitElement, TemplateResult } from "lit";
-import { state } from "lit/decorators.js";
 import { Services } from "./services";
-import { Themes, SizeState } from "./types";
-
-export interface ThemeRule {
-  theme: Themes;
-  css: CSSResult;
-}
+import { MediaQuery, Themes } from "./types";
 
 export abstract class LitElementThemable extends LitElement {
   protected static _instances: LitElementThemable[] = [];
-
-  private _sizeState: SizeState = SizeState.desktop;
-
-  public get sizeState(): SizeState {
-    return this._sizeState;
-  }
-
-  private set sizeState(newState: SizeState) {
-    if (newState == this._sizeState) {
-      return;
-    }
-    this._sizeState = newState;
-    this.toggleAllThemable();
-  }
-
-  public isDesktop(): boolean {
-    return window.innerWidth < 900;
-  }
 
   constructor() {
     super();
@@ -39,21 +15,13 @@ export abstract class LitElementThemable extends LitElement {
     LitElementThemable._instances.push(this);
   }
 
-  abstract themedCSS(): ThemeRule[];
-
   toggleAllThemable() {
     LitElementThemable._instances.forEach((el) => {
       el.requestUpdate();
     });
   }
 
-  getCssFor(theme: Themes): CSSResult {
-    let src = this.themedCSS().filter((rule) => rule.theme == theme);
-    if (src.length > 0) {
-      return src[0].css;
-    }
-    return css``;
-  }
+  abstract cssThemed(theme: Themes): CSSResult;
 
   css(): CSSResult {
     return css``;
@@ -68,17 +36,11 @@ export abstract class LitElementThemable extends LitElement {
           transition-duration: 0.2s;
         }
         ${this.css()}
-        ${this.getCssFor(Services.theme.selectedTheme)}
+        ${this.cssThemed(Services.theme.selectedTheme)}
       </style>
       ${this.html()}
     `;
   }
-}
-
-export interface MediaQuery {
-  name: string;
-  minWidth: number;
-  minHeight?: number;
 }
 
 export abstract class LitElementResponsive extends LitElementThemable {
@@ -127,6 +89,10 @@ export abstract class LitElementResponsive extends LitElementThemable {
 
   override css(): CSSResult {
     throw new Error("Method not implemented.");
+  }
+
+  override cssThemed(theme: Themes): CSSResult {
+    return css``;
   }
 
   get MatchedMediaQuery(): MediaQuery {
@@ -184,9 +150,9 @@ export abstract class LitElementResponsive extends LitElementThemable {
   override render() {
     return html`
       <style>
-        /* * { transition-duration: 0.2s; } */
+        * { transition-duration: 0.2s; }
         ${this.getCss()}
-        ${this.getCssFor(Services.theme.selectedTheme)}
+        ${this.cssThemed(Services.theme.selectedTheme)}
       </style>
       ${this.getHtml()}
     `;

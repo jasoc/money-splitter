@@ -1,9 +1,9 @@
 import { Money } from "./money";
-import { IEntity, IMoney } from "../interfaces";
+import { IClonable, IEntity, IMoney } from "../interfaces";
 import { RestCategory } from "../enums";
 import { Utils } from "../utils";
 
-export class Human implements IEntity {
+export class Human implements IEntity, IClonable {
     name: string;
     amountToPay: number;
     money: Money[];
@@ -17,6 +17,18 @@ export class Human implements IEntity {
             .sort((a, b) => b.amount - a.amount)
             .reverse();
         this.initialMoney = Utils.deepClone(this.money);
+    }
+
+    clone(): Human {
+        return new Human({
+            name: this.name,
+            amountToPay: this.amountToPay,
+            money: this.money.map((m) => m.clone())
+        });
+    }
+
+    equals(other: IClonable): boolean {
+        throw new Error("Method not implemented.");
     }
 
     static default(): Human {

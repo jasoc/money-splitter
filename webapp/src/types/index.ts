@@ -1,2 +1,2 @@
 export * from "./themes";
-export * from "./sizeState";
+export * from "./mediaQuery";

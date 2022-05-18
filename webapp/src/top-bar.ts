@@ -1,21 +1,25 @@
-import { html, css, unsafeCSS } from "lit";
+import { html, css, unsafeCSS, CSSResult, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { Services } from "./services";
-import { LitElementThemable, ThemeRule } from "./lit-components";
+import { LitElementResponsive } from "./lit-components";
 
 import "./elements/mat-button";
 import "./elements/div-spacer";
 
-import { Colors, Sizes } from "./styles";
-import { SizeState, Themes } from "./types";
+import { Colors, defaultMediaQueries, Sizes } from "./styles";
+import { MediaQuery, Themes } from "./types";
 
 @customElement("top-bar")
-export class TopBar extends LitElementThemable {
-  themedCSS(): ThemeRule[] {
-    return [
-      {
-        theme: Themes.dark,
-        css: css`
+export class TopBar extends LitElementResponsive {
+
+  defineMediaQuery(): MediaQuery[] {
+    return defaultMediaQueries;
+  }
+
+  override cssThemed(theme: Themes): CSSResult {
+    switch (theme) {
+      case Themes.dark:
+        return css`
           #top-bar {
             border-bottom: 1px solid #ffffff3d;
           }
@@ -23,11 +27,9 @@ export class TopBar extends LitElementThemable {
           #top-bar .title {
             color: ${unsafeCSS(Colors.fontDark)};
           }
-        `,
-      },
-      {
-        theme: Themes.light,
-        css: css`
+        `;
+      case Themes.light:
+        return css`
           #top-bar {
             border-bottom: 1px solid #00000033;
           }
@@ -35,19 +37,14 @@ export class TopBar extends LitElementThemable {
           #top-bar .title {
             color: ${unsafeCSS(Colors.fontLight)};
           }
-        `,
-      },
-    ];
+        `;
+    }
   }
 
   static override styles = css`
     #top-bar {
       padding: 7px 0px;
       display: flex;
-    }
-
-    @media screen and (max-width: 992px) {
-
     }
 
     #top-bar .title {
@@ -74,11 +71,12 @@ export class TopBar extends LitElementThemable {
     }
   `;
 
-  override html() {
+  override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
     return html`
       <div id="top-bar">
-
-        ${this.sizeState == SizeState.desktop ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>` : ""}
+        ${mediaQuery.name == 'desktop'
+          ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>`
+          : ""}
 
         <div class="top-bar_left">
           <h3 class="title">Money splitter</h3>
@@ -115,8 +113,9 @@ export class TopBar extends LitElementThemable {
           </mat-button>
         </div>
 
-        ${this.sizeState == SizeState.desktop ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>` : ""}
-
+        ${mediaQuery.name == 'desktop'
+          ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>`
+          : ""}
       </div>
     `;
   }

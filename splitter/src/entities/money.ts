@@ -15,8 +15,12 @@ export class Money implements IMoney, IClonable {
         this.owner = owner;
     }
 
-    clone(): IClonable {
-        throw new Error('Method not implemented.');
+    clone(): Money {
+        return new Money({
+            amount: this.amount,
+            quantity: this.quantity,
+            currency: this.currency
+        }, this.owner.clone());
     }
 
     equals(other: Money, strict: boolean = true): boolean {

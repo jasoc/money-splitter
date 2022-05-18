@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "name": "@money-splitter/tests",
+  "license": "MIT",
+  "description": "Tests for money splitter",
+  "author": "Paride Giunta <paridegiunta@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "ts-node": "^10.7.0",
+    "@money-splitter/splitter": "*"
+  },
+  "devDependencies": {}
+}

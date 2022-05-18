@@ -1,33 +1,16 @@
-import { html, css, unsafeCSS } from "lit";
+import { html, css, unsafeCSS, CSSResult } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LitElementThemable, ThemeRule } from "../lit-components";
-import { Colors } from "../styles";
-import { Themes } from "../types";
+import { LitElementResponsive, LitElementThemable } from "../lit-components";
+import { Colors, defaultMediaQueries } from "../styles";
+import { MediaQuery, Themes } from "../types";
 
 @customElement("app-about")
-export class AppAbout extends LitElementThemable {
-  
-  override themedCSS(): ThemeRule[] {
-    return [
-      {
-        theme: Themes.dark,
-        css: css`
-          h1, h2 {
-            color: ${unsafeCSS(Colors.fontDark)};
-          }
-        `
-      },
-      {
-        theme: Themes.light,
-        css: css`
-          h1, h2 {
-            color: ${unsafeCSS(Colors.fontLight)};
-          }
-        `
-      }
-    ]
-  }
+export class AppAbout extends LitElementResponsive {
 
+  defineMediaQuery(): MediaQuery[] {
+    return defaultMediaQueries;
+  }
+  
   override html() {
     return html`
       <div id="home">

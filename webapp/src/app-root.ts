@@ -1,4 +1,4 @@
-import { html, css, unsafeCSS } from "lit";
+import { html, css, unsafeCSS, CSSResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementThemable } from "./lit-components";
 
@@ -10,30 +10,26 @@ import { Themes } from "./types";
 
 @customElement("app-root")
 export class AppRoot extends LitElementThemable {
-  constructor() {
-    super();
-    setTimeout(() => initRouter(this.shadowRoot!.getElementById("router")));
-  }
-
-  override themedCSS() {
-    return [
-      {
-        theme: Themes.dark,
-        css: css`
-          #app-root {
-            background-color: ${unsafeCSS(Colors.backgroundDark)};
-          }
-        `,
-      },
-      {
-        theme: Themes.light,
-        css: css`
+  cssThemed(theme: Themes): CSSResult {
+    switch (theme) {
+      case Themes.dark:
+        return css`
+        #app-root {
+          background-color: ${unsafeCSS(Colors.backgroundDark)};
+        }
+      `;
+      case Themes.light:
+        return css`
           #app-root {
             background-color: ${unsafeCSS(Colors.backgroundLight)};
           }
-        `,
-      },
-    ];
+        `;
+    }
+  }
+
+  constructor() {
+    super();
+    setTimeout(() => initRouter(this.shadowRoot!.getElementById("router")));
   }
 
   static override styles = css`
