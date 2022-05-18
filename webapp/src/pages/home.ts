@@ -1,19 +1,18 @@
-import { html, css, unsafeCSS } from "lit";
+import { html, css, unsafeCSS, TemplateResult, CSSResult } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LitElementThemable, ThemeRule } from "../lit-components";
+import {
+  LitElementResponsive,
+  LitElementThemable,
+  MediaQuery,
+  ThemeRule,
+} from "../lit-components";
 import { Colors, Sizes } from "../styles";
 import "../elements/div-spacer";
 import "../elements/mat-button";
 import { Themes } from "../types";
 
 @customElement("app-home")
-export class AppHome extends LitElementThemable {
-
-  constructor() {
-    super();
-
-  }
-
+export class AppHome extends LitElementResponsive {
   static override styles = css`
     #home {
       height: 100%;
@@ -57,23 +56,62 @@ export class AppHome extends LitElementThemable {
     ];
   }
 
-  override html() {
+  defineMediaQuery(): MediaQuery[] {
+    return [
+      {
+        name: "mobile",
+        minWidth: 900,
+      },
+      {
+        name: "desktop",
+        minWidth: 3000,
+      },
+      {
+        name: "wide",
+        minWidth: 4000,
+      },
+    ];
+  }
+
+  getSizeGap(mediaQuery: MediaQuery): string {
+    if (mediaQuery.name == "desktop") {
+      return Sizes.sideGap;
+    }
+    return "10vw";
+  }
+
+  override cssQueried(mediaQuery: MediaQuery): CSSResult {
+      
+  }
+
+  override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
     return html`
       <div id="home">
         <div id="hero">
-          <div style="grid-column: 1; grid-row: 2; width: ${Sizes.sideGap}"></div>
-          <div id="hero__text" style="grid-row: 2; width: calc(100vw - ${Sizes.sideGap} - ${Sizes.sideGap})">
+          <div
+            style="grid-column: 1;
+            grid-row: 2;
+            width: ${this.getSizeGap(mediaQuery)}"
+          ></div>
+          <div
+            id="hero__text"
+            style="grid-row: 2;
+            width: calc(100vw - ${Sizes.sideGap} - ${Sizes.sideGap})"
+          >
             <h1>Ciao</h1>
-            <h2>Coglione</h2>
+            <h2>Coglione su ${mediaQuery.name}</h2>
           </div>
-          <div style="grid-column: 3; grid-row: 2; width: ${Sizes.sideGap}"></div>
+          <div
+            style="grid-column: 3;
+            grid-row: 2;
+            width: ${this.getSizeGap(mediaQuery)}"
+          ></div>
         </div>
       </div>
     `;
   }
 
-  onClick() {
-  }
+  onClick() {}
 }
 
 declare global {
