@@ -1,4 +1,4 @@
-import { resolveAllRestLinear, Human, Currency } from "../splitter";
+import { resolveAllRestLinear, Human, Currency } from "@money-splitter/splitter ";
 
 function main() {
 
@@ -10,7 +10,7 @@ function main() {
             amountToPay: 18.92,
             money: [
                 { amount: 20, quantity: 1, currency: currency },
-                { amount: 5, quantity: 2, currency: currency },
+                { amount: 5, quantity: 2, currency: currency }, 
                 { amount: 50, quantity: 1, currency: currency },
             ]
         }),
