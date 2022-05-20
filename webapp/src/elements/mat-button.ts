@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "./mat-icon";
 import "./div-spacer";
@@ -8,9 +8,15 @@ import {
   robotoFlexSemibold,
 } from "../styles/materialize.css";
 import "@polymer/paper-ripple";
+import { LitElementResponsive } from "../lit-components";
+import { MediaQuery } from "../types";
 
 @customElement("mat-button")
-export class MatButton extends LitElement {
+export class MatButton extends LitElementResponsive {
+
+  defineMediaQuery(): MediaQuery[] {
+    return [];
+  }
 
   static override styles = css`
     button {
@@ -29,6 +35,13 @@ export class MatButton extends LitElement {
       cursor: pointer;
       transition-duration: 0.3s;
       ${robotoFlexSemibold};
+    }
+
+    button .button-inner {
+      width: 100%;
+      display: flex;
+      border-radius: 5px;
+      flex-direction: row;
     }
 
     button .hover-bar {
@@ -65,10 +78,31 @@ export class MatButton extends LitElement {
   @property({ type: Boolean })
   underline: boolean = false;
 
+  @property({ type: Boolean })
+  flexible: boolean = false;
+
+  @property({ type: String })
+  align: 'left' | 'center' | 'right' = 'center';
+
   @property({ type: String })
   border: "min" | "shadow" | null = null;
 
-  override render() {
+  override css() {
+    return css`
+
+      button {
+        ${unsafeCSS(this.flexible ? css`width: 100%` : 'auto')};
+      }
+
+      button button-inner {
+        ${unsafeCSS(this.align === 'left' ? css`justify-content: flex-start` : '')};
+        ${unsafeCSS(this.align === 'center' ? css`justify-content: center` : '')};
+        ${unsafeCSS(this.align === 'right' ? css`justify-content: flex-end` : '')};
+      }
+    `;
+  }
+
+  override html() {
     return html`
       <button
         style="
@@ -78,19 +112,21 @@ export class MatButton extends LitElement {
           ${this.border === "min" ? mat3Border : ""}
         "
       >
-        ${this.icon ? html` <mat-icon icon="${this.icon}"></mat-icon> ` : ""}
-        ${this.text && this.icon
-          ? html` <div-spacer size="12px"></div-spacer> `
-          : ""}
-        ${this.text}
-        <paper-ripple></paper-ripple>
-        <slot></slot>
-        ${this.underline ? html`
-          <div
-            class="hover-bar"
-            style="background-color: ${this.color}"
-            ></div>
-        ` : ""}
+        <div class="button-inner">
+          ${this.icon ? html` <mat-icon icon="${this.icon}"></mat-icon> ` : ""}
+          ${this.text && this.icon
+            ? html` <div-spacer size="12px"></div-spacer> `
+            : ""}
+          ${this.text}
+          <paper-ripple></paper-ripple>
+          <slot></slot>
+          ${this.underline ? html`
+            <div
+              class="hover-bar"
+              style="background-color: ${this.color}"
+              ></div>
+          ` : ""}
+        </div>
       </button>
     `;
   }

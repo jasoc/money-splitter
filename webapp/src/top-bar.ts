@@ -1,16 +1,44 @@
 import { html, css, unsafeCSS, CSSResult, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { Services } from "./services";
 import { LitElementResponsive } from "./lit-components";
 
 import "./elements/mat-button";
+import "./elements/context-menu";
 import "./elements/div-spacer";
 
 import { Colors, defaultMediaQueries, Sizes } from "./styles";
 import { MediaQuery, Themes } from "./types";
+import { Context } from "./elements/context-menu";
+import { pointInsideArea } from "./utils";
 
 @customElement("top-bar")
 export class TopBar extends LitElementResponsive {
+  contextMenuArr(): Context[] {
+    return [
+      {
+        text: "Home",
+        icon: "home",
+        action: () => (location.href = "home"),
+      },
+      {
+        text: "About",
+        icon: "lightbulb",
+        action: () => (location.href = "about"),
+      },
+      {
+        text: "Change theme",
+        icon: this.getThemeIcon(),
+        action: () => this.onClickToggleTheme(),
+      },
+    ];
+  }
+
+  @state()
+  contextMenuVisible: boolean = false;
+
+  contextMenuX: number = 0;
+  contextMenuY: number = 0;
 
   defineMediaQuery(): MediaQuery[] {
     return defaultMediaQueries;
@@ -23,17 +51,16 @@ export class TopBar extends LitElementResponsive {
           #top-bar {
             border-bottom: 1px solid #ffffff3d;
           }
-
           #top-bar .title {
             color: ${unsafeCSS(Colors.fontDark)};
           }
         `;
+
       case Themes.light:
         return css`
           #top-bar {
             border-bottom: 1px solid #00000033;
           }
-
           #top-bar .title {
             color: ${unsafeCSS(Colors.fontLight)};
           }
@@ -45,6 +72,7 @@ export class TopBar extends LitElementResponsive {
     #top-bar {
       padding: 7px 0px;
       display: flex;
+      min-height: 50px;
     }
 
     #top-bar .title {
@@ -74,53 +102,111 @@ export class TopBar extends LitElementResponsive {
   override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
     return html`
       <div id="top-bar">
-        ${mediaQuery.name == 'desktop'
-          ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>`
-          : ""}
+        <div-spacer
+          size="${mediaQuery.name == "desktop" ? Sizes.sideGap : "3vw"}"
+        ></div-spacer>
 
         <div class="top-bar_left">
           <h3 class="title">Money splitter</h3>
         </div>
 
         <div class="top-bar_right">
-          <mat-button
-            icon="home"
-            ?underline=${true}
-            text="Home"
-            @click="${() => (location.href = "home")}"
-            color="${this.getThemeIconColor()}"
-            background="none"
-          >
-          </mat-button>
+          ${mediaQuery.name == "desktop"
+            ? html`
+                <mat-button
+                  icon="home"
+                  ?underline=${true}
+                  text="Home"
+                  @click="${() => (location.href = "home")}"
+                  color="${this.getThemeIconColor()}"
+                  background="none"
+                >
+                </mat-button>
 
-          <mat-button
-            icon="lightbulb"
-            ?underline=${true}
-            text="About"
-            @click="${() => (location.href = "about")}"
-            color="${this.getThemeIconColor()}"
-            background="none"
-          >
-          </mat-button>
+                <mat-button
+                  icon="lightbulb"
+                  ?underline=${true}
+                  text="About"
+                  @click="${() => (location.href = "about")}"
+                  color="${this.getThemeIconColor()}"
+                  background="none"
+                >
+                </mat-button>
 
-          <mat-button
-            class="theme-toggle"
-            @click=${this.onClickToggleTheme}
-            icon="${this.getThemeIcon()}"
-            color="${this.getThemeIconColor()}"
-            background="none"
-          >
-          </mat-button>
+                <mat-button
+                  class="theme-toggle"
+                  @click=${this.onClickToggleTheme}
+                  icon="${this.getThemeIcon()}"
+                  color="${this.getThemeIconColor()}"
+                  background="none"
+                >
+                </mat-button>
+              `
+            : html`
+                <mat-button
+                  icon="menu"
+                  @click="${this.toggleContextMenu}"
+                  color="${this.getThemeIconColor()}"
+                  background="none"
+                >
+                </mat-button>
+
+                ${this.contextMenuVisible
+                  ? html`<context-menu
+                      .context=${this.contextMenuArr()}
+                      x=${this.contextMenuX}
+                      y=${this.contextMenuY}
+                    ></context-menu>`
+                  : ""}
+              `}
         </div>
 
-        ${mediaQuery.name == 'desktop'
-          ? html`<div-spacer size="${Sizes.sideGap}"></div-spacer>`
-          : ""}
+        <div-spacer
+          size="${mediaQuery.name == "desktop" ? Sizes.sideGap : "3vw"}"
+        ></div-spacer>
       </div>
     `;
   }
 
-  theme: string = Themes[Services.storage.set.currentTheme];
+  toggleContextMenu(event) {
+    console.log("suca")
+    this.contextMenuVisible = !this.contextMenuVisible;
+    if (!window.onclick) {
+      window.onclick = (event) => {
+        const contextMenuElement = this.shadowRoot
+          ?.querySelector("context-menu")
+          ?.shadowRoot?.querySelector(".context-menu");
+
+        if (contextMenuElement) {
+          console.log(
+            event.clientX,
+            event.clientY,
+            this.contextMenuX,
+            this.contextMenuY,
+            contextMenuElement.clientWidth,
+            contextMenuElement.clientHeight
+          );
+          
+          const isInside = pointInsideArea(
+            event.clientX,
+            event.clientY,
+            contextMenuElement.getBoundingClientRect().left,
+            contextMenuElement.getBoundingClientRect().top,
+            contextMenuElement.clientWidth,
+            contextMenuElement.clientHeight
+          );
+          
+          console.log(isInside);
+
+          if (!isInside) {
+            this.contextMenuVisible = false;
+          }
+        }
+      };
+    }
+    this.contextMenuX = event.clientX;
+    this.contextMenuY = event.clientY;
+  }
 
   getThemeIcon() {
     return Services.theme.selectedTheme === Themes.dark
@@ -139,7 +225,6 @@ export class TopBar extends LitElementResponsive {
       Services.storage.set.currentTheme === Themes.dark
         ? Themes.light
         : Themes.dark;
-    this.theme = Themes[Services.storage.set.currentTheme];
   }
 }
 

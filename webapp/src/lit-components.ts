@@ -1,6 +1,7 @@
 import { css, CSSResult, html, LitElement, TemplateResult } from "lit";
 import { Services } from "./services";
 import { MediaQuery, Themes } from "./types";
+import { mobileRegexAgent, mobileRegexSizes } from "./utils";
 
 export abstract class LitElementThemable extends LitElement {
   protected static _instances: LitElementThemable[] = [];
@@ -13,6 +14,10 @@ export abstract class LitElementThemable extends LitElement {
     }
 
     LitElementThemable._instances.push(this);
+  }
+
+  get currentTheme(): Themes {
+    return Services.theme.selectedTheme;
   }
 
   toggleAllThemable() {
@@ -73,6 +78,13 @@ export abstract class LitElementResponsive extends LitElementThemable {
     };
   }
 
+  get mobile(): boolean {
+    return (
+      mobileRegexAgent.test(navigator.userAgent)
+      || mobileRegexSizes.test(navigator.userAgent.substring(0,4))
+    );
+  }
+
   abstract defineMediaQuery(): MediaQuery[];
 
   htmlQueried(mediaQuery: MediaQuery): TemplateResult {
@@ -110,16 +122,11 @@ export abstract class LitElementResponsive extends LitElementThemable {
     const sortedMq = this.defineMediaQuery().sort(
       (a, b) => a.minWidth - b.minWidth
     );
-    let found: boolean = false;
     for (let mq of sortedMq) {
       if (window.innerWidth <= mq.minWidth) {
         this.MatchedMediaQuery = mq;
-        found = true;
         break;
       }
-    }
-    if (!found) {
-      this.MatchedMediaQuery = sortedMq[sortedMq.length - 1];
     }
   }
 

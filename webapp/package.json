@@ -18,7 +18,7 @@
     "rollup": "rollup -c",
     "webpack": "webpack -c webpack.dev.js",
     "webpack-prod": "webpack -c webpack.prod.js",
-    "webpack-watch": "webpack --watch -c webpack.config.js",
+    "webpack-watch": "webpack --watch -c webpack.dev.js",
     "rollup-watch": "rollup -c -w"
   },
   "dependencies": {
