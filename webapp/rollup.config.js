@@ -1,4 +1,3 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
 import html from '@web/rollup-plugin-html';
 import copy from 'rollup-plugin-copy'
 
@@ -8,7 +7,6 @@ export default {
     dir: 'dist/rollup',
   },
   plugins: [
-    nodeResolve(),
     html({
       extractAssets: true,
     }),

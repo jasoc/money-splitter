@@ -7,20 +7,25 @@
   "scripts": {
     "start": "npm run build && npm run serve",
     "dev": "run-p build-watch serve-watch",
-    "build": "tsc && yarn run postcss && yarn run rollup",
+    "build": "tsc && yarn run postcss && yarn run webpack && yarn run rollup",
+    "build-prod": "tsc && yarn run postcss && yarn run webpack-prod && yarn run rollup",
     "tscw": "tsc -w",
-    "build-watch": "run-p tscw postcss-watch rollup-watch",
+    "build-watch": "run-p tscw postcss-watch webpack-watch rollup-watch",
     "serve": "wds",
     "serve-watch": "wds --watch",
     "postcss": "postcss -o dist/postcss/styles.css src/styles.css",
     "postcss-watch": "postcss -o dist/postcss/styles.css src/styles.css --watch",
     "rollup": "rollup -c",
+    "webpack": "webpack -c webpack.dev.js",
+    "webpack-prod": "webpack -c webpack.prod.js",
+    "webpack-watch": "webpack --watch -c webpack.config.js",
     "rollup-watch": "rollup -c -w"
   },
   "dependencies": {
     "@material/ripple": "^14.0.0",
     "@money-splitter/splitter": "*",
     "@polymer/paper-ripple": "^3.0.2",
+    "@rollup/plugin-commonjs": "^22.0.0",
     "@vaadin/router": "^1.7.4",
     "autoprefixer": "^10.4.7",
     "lit": "^2.1.0",
@@ -32,7 +37,9 @@
     "postcss-import": "^14.1.0",
     "rollup-plugin-copy": "^3.4.0",
     "rxjs": "^7.5.5",
-    "typescript-plugin-css-modules": "^3.4.0"
+    "typescript-plugin-css-modules": "^3.4.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",

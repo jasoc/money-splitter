@@ -1,6 +1,6 @@
-import { resolveAllRestLinear, Human, Currency } from "@money-splitter/splitter ";
+import { resolveAllRestLinear, Human, Currency } from "@money-splitter/splitter";
 
-function main() {
+export function main() {
 
     const currency = Currency.euro;
 
@@ -61,5 +61,3 @@ function main() {
     console.log(`people left to pay: ${peopleWithRestLeft}`);
     console.log(`The total rest will be ${finalPot.rest()}`)
 }
-
-main();

@@ -16,14 +16,14 @@ export class Human implements IEntity, IClonable {
             .map(m => new Money(m, this))
             .sort((a, b) => b.amount - a.amount)
             .reverse();
-        this.initialMoney = Utils.deepClone(this.money);
+        this.initialMoney = this.money.map((m) => m.clone());
     }
 
     clone(): Human {
         return new Human({
             name: this.name,
             amountToPay: this.amountToPay,
-            money: this.money.map((m) => m.clone())
+            money: []
         });
     }
 
@@ -109,7 +109,7 @@ export class Human implements IEntity, IClonable {
     rightAmountMoney(): Money[] {
         let cnt: number = this.amountToPay;
         let res: Money[] = [];
-        let moneyClone = Utils.deepClone(Utils.spreadMoney(this.money));
+        let moneyClone = Utils.spreadMoney(this.money.map((m) => m.clone()));
         
         while (cnt > 0) {
             const amount = Utils.getClosestAmount(cnt, moneyClone);

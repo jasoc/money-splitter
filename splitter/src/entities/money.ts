@@ -20,7 +20,7 @@ export class Money implements IMoney, IClonable {
             amount: this.amount,
             quantity: this.quantity,
             currency: this.currency
-        }, this.owner.clone());
+        }, this.owner);
     }
 
     equals(other: Money, strict: boolean = true): boolean {

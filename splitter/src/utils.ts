@@ -1,5 +1,4 @@
 import { Money } from "./entities/money";
-import { cloneDeep } from "lodash-es";
 
 export class Utils {
 
@@ -34,7 +33,7 @@ export class Utils {
     
     static spreadMoney(money: Money[]): Money[] {
         let res: Money[] = [];
-        const moneyClone = cloneDeep(money);
+        const moneyClone = money.map((m) => m.clone());
         for (let m of moneyClone) {
             let quantity: number = m.quantity;
             m.quantity = 1;
@@ -52,7 +51,7 @@ export class Utils {
                 && m1.owner.name === m2.owner.name;
         };
         let res: Money[] = [];
-        const moneyClone = cloneDeep(money);
+        const moneyClone = money.map((m) => m.clone());
         for (let m of moneyClone) {
             if (res.some(r => equals(r, m))) {
                 continue;
@@ -67,10 +66,6 @@ export class Utils {
             res.push(m);
         }
         return res;
-    }
-    
-    static deepClone(arg: any) {
-        return cloneDeep(arg);
     }
     
     static roundMoney(money: number): number {

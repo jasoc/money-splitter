@@ -29,7 +29,14 @@ export class AppRoot extends LitElementThemable {
 
   constructor() {
     super();
-    setTimeout(() => initRouter(this.shadowRoot!.getElementById("router")));
+    setTimeout(() => this.attachRouterOutlet());
+  }
+  
+  attachRouterOutlet(): void {
+    const router = this.shadowRoot?.getElementById("router");
+    if (router) {
+      initRouter(router);
+    }
   }
 
   static override styles = css`

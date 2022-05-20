@@ -8,12 +8,13 @@
     "access": "public"
   },
   "scripts": {
+    "test": "ts-node src/test.ts",
     "build": "tsc",
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "ts-node": "^10.7.0",
-    "@money-splitter/splitter": "*"
+    "@money-splitter/splitter": "*",
+    "ts-node": "^10.7.0"
   },
   "devDependencies": {}
 }

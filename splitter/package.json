@@ -14,8 +14,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@types/lodash-es": "^4.17.6",
-    "lodash-es": "^4.17.21"
+    "@types/lodash-es": "^4.17.6"
   },
   "devDependencies": {
     "tslib": "^2.4.0",
