@@ -1,18 +1,18 @@
 import { Money } from "./money";
-import { IClonable, IEntity, IMoney } from "../interfaces";
+import { IClonable, Entity, IMoney, IHuman } from "../interfaces";
 import { RestCategory } from "../enums";
 import { Utils } from "../utils";
 
-export class Human implements IEntity, IClonable {
+export class Human implements IHuman, Entity, IClonable {
     name: string;
     amountToPay: number;
     money: Money[];
     initialMoney: Money[];
 
-    constructor({ name, amountToPay, money }: { name: string, amountToPay: number, money: IMoney[] }) {
-        this.name = name;
-        this.amountToPay = Utils.roundMoney(amountToPay);
-        this.money = money
+    constructor(human: IHuman) {
+        this.name = human.name;
+        this.amountToPay = Utils.roundMoney(human.amountToPay);
+        this.money = human.money
             .map(m => new Money(m, this))
             .sort((a, b) => b.amount - a.amount)
             .reverse();

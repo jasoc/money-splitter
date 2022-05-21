@@ -1,18 +1,18 @@
 import { Money } from "./money";
 import { Operation } from "../enums";
-import { IEntity } from "../interfaces";
+import { Entity } from "../interfaces";
 import { Utils } from "../utils";
 
 export class Move {
     operation: Operation;
-    subject: IEntity;
-    destination: IEntity;
+    subject: Entity;
+    destination: Entity;
     money: Money[];
 
     constructor({ operation, subject: from, destination: to, money }: {
         operation: Operation;
-        subject: IEntity;
-        destination: IEntity;
+        subject: Entity;
+        destination: Entity;
         money: Money | Money[];
     }) {
         this.operation = operation;

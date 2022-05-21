@@ -1,17 +1,18 @@
-import { Human, Pot } from "@money-splitter/splitter";
+import { IHuman } from '@money-splitter/splitter';
 import { Observable } from 'object-observer';
 import { Themes } from "../types";
 import { Services } from "./services";
 
 interface StorageProperties {
   currentTheme: Themes;
+  humans: IHuman[];
 }
 
 export class StorageService {
   public set: StorageProperties;
 
   constructor() {
-    const obs = Observable.from(this.getDefaultStorage());
+    const obs = Observable.from(this.get);
     Observable.observe(obs, () => this.updateLocalStorageJson());
     this.set = obs;
   }
@@ -22,7 +23,8 @@ export class StorageService {
 
   getDefaultStorage(): StorageProperties {
     return {
-      currentTheme: Themes.dark
+      currentTheme: Themes.dark,
+      humans: [],
     };
   }
 
@@ -30,7 +32,7 @@ export class StorageService {
     const read: string | null = localStorage.getItem("moneySPlitterStorage");
     if (read) {
       return <StorageProperties>JSON.parse(read);
-    }
+    } 
     return this.getDefaultStorage();
   }
 

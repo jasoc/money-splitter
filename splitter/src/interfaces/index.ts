@@ -1,3 +1,4 @@
 export { Clonable as IClonable } from "./clonable";
 export { IMoney } from "./imoney";
-export { Entity as IEntity } from "./entity";
+export { Entity } from "./entity";
+export { IHuman } from "./ihuman";

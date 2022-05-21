@@ -1,15 +1,11 @@
-import { Human, Move, Pot } from "./entities";
+import { Move, Pot } from "./entities";
 import { Operation } from "./enums";
+import { IHuman } from "./interfaces";
 import { Utils } from "./utils";
 
-export function resolveAllRestLinear(people: Human[]): Pot {
-    let totalAmount: number = 0;
+export function resolveAllRestLinear(people: IHuman[]): Pot {
 
-    for (let p of people) {
-        totalAmount += p.amountToPay;
-    }
-
-    const pot: Pot = new Pot({ people, totalAmount });
+    const pot: Pot = new Pot(people);
 
     const solvedPeople = pot.people.filter(p => p.moneyAmount === p.amountToPay);
 
@@ -24,7 +20,7 @@ export function resolveAllRestLinear(people: Human[]): Pot {
             destination: pot,
             money:       person.money,
         }));
-        people.splice(people.indexOf(person), 1);
+        pot.people.splice(pot.people.indexOf(person), 1);
     }
 
     // First thing, people pays the nearest amount

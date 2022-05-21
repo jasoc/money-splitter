@@ -1,11 +1,11 @@
 import { Move } from "./move";
 import { Human } from "./human";
 import { Money } from "./money";
-import { IEntity } from "../interfaces";
+import { Entity, IHuman } from "../interfaces";
 import { RestCategory } from "../enums";
 import { Utils } from "../utils";
 
-export class Pot implements IEntity {
+export class Pot implements Entity {
     name: string = "Pot";
 
     people: Human[];
@@ -14,14 +14,13 @@ export class Pot implements IEntity {
     moneyPayed: Money[] = [];
     
     threshold: number = 0.4;
-    totalAmount: number;
+    totalAmount: number = 0;
 
-    constructor({ people, totalAmount }: {
-        people: Human[];
-        totalAmount: number
-    }) {
-        this.people = people;
-        this.totalAmount = totalAmount;
+    constructor(people: IHuman[]) {
+        this.people = people.map((p) => new Human(p));
+        for (let p of this.people) {
+            this.totalAmount += p.amountToPay;
+        }
     }
     
     amountPayed(): number {
