@@ -14,10 +14,10 @@ export class AppRoot extends LitElementThemable {
     switch (theme) {
       case Themes.dark:
         return css`
-        #app-root {
-          background-color: ${unsafeCSS(Colors.backgroundDark)};
-        }
-      `;
+          #app-root {
+            background-color: ${unsafeCSS(Colors.backgroundDark)};
+          }
+        `;
       case Themes.light:
         return css`
           #app-root {
@@ -31,7 +31,7 @@ export class AppRoot extends LitElementThemable {
     super();
     setTimeout(() => this.attachRouterOutlet());
   }
-  
+
   attachRouterOutlet(): void {
     const router = this.shadowRoot?.getElementById("router");
     if (router) {
@@ -41,8 +41,9 @@ export class AppRoot extends LitElementThemable {
 
   static override styles = css`
     #app-root {
+      overflow: auto;
       width: 100%;
-      min-height: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
     }

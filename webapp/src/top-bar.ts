@@ -49,6 +49,7 @@ export class TopBar extends LitElementResponsive {
       case Themes.dark:
         return css`
           #top-bar {
+            background-color: ${unsafeCSS(Colors.backgroundDark)};
             border-bottom: 1px solid #ffffff1a;
           }
           #top-bar .title {
@@ -59,6 +60,7 @@ export class TopBar extends LitElementResponsive {
       case Themes.light:
         return css`
           #top-bar {
+            background-color: ${unsafeCSS(Colors.backgroundLight)};
             border-bottom: 1px solid #00000033;
           }
           #top-bar .title {
