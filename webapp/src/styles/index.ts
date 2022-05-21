@@ -1,3 +1,5 @@
 export * from './materialize.css';
-export * from './values.css';
-export * from './mediaQueries';
+export * from './sizes.css';
+export * from './colors.css';
+export * from './typography.css';
+export * from './media-queries';

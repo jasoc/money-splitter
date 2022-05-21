@@ -1,7 +1,7 @@
 import { html, css, unsafeCSS, TemplateResult, CSSResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LitElementResponsive } from "../lit-components";
-import { Colors, Sizes } from "../styles";
+import { Colors, Typography } from "../styles";
 import "../elements/div-spacer";
 import "../elements/mat-button";
 import { MediaQuery, Themes } from "../types";
@@ -12,20 +12,41 @@ export class AppHome extends LitElementResponsive {
   static override styles = css`
     #home {
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
     }
 
-    #hero {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      grid-template-rows: 10vh auto;
+    #hero,
+    #hero * {
+      grid-row: 2;
     }
 
-    #hero #hero__text {
-      grid-column: 2;
+    #hero #hero__img {
+      grid-column: 3;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 0 0 0 20px;
+    }
+
+    #hero #hero__img label {
+      font-size: 110px;
+    }
+
+    footer {
+      width: 100%;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px;
+    }
+
+    footer .footer__right, footer .footer__left {
+      display: flex;
     }
   `;
 
@@ -33,15 +54,13 @@ export class AppHome extends LitElementResponsive {
     switch (theme) {
       case Themes.dark:
         return css`
-          h1,
-          h2 {
+          * {
             color: ${unsafeCSS(Colors.fontDark)};
           }
         `;
       case Themes.light:
         return css`
-          h1,
-          h2 {
+          * {
             color: ${unsafeCSS(Colors.fontLight)};
           }
         `;
@@ -54,22 +73,54 @@ export class AppHome extends LitElementResponsive {
 
   getSizeGap(mediaQuery: MediaQuery): string {
     if (mediaQuery.name == "desktop") {
-      return Sizes.sideGap;
+      return "20vw";
     }
     return "10vw";
   }
 
+  getGithubImage(): string {
+    if (this.currentTheme == Themes.dark) {
+      return "assets/images/github_white.png";
+    }
+    return "assets/images/github_black.png";
+  }
+
+  getLinkedinImage(): string {
+    if (this.currentTheme == Themes.dark) {
+      return "assets/images/linkedin_white.png";
+    }
+    return "assets/images/linkedin_black.png";
+  }
+
   override cssQueried(mediaQuery: MediaQuery): CSSResult {
-    if (mediaQuery.name == "desktop") {
+    if (mediaQuery.name == "mobile") {
       return css`
-        h2 {
-          font-size: 2em;
+        #hero {
+          height: 70vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        #hero #hero__text {
+          padding: 0 8vw 0 8vw;
+          text-align: center;
+          margin-bottom: 10vh;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
         }
       `;
     }
+
     return css`
-      h2 {
-        font-size: 1em;
+      #hero {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-template-rows: 20vh auto 20vh;
+        padding: 0 20px 0 0;
       }
     `;
   }
@@ -80,28 +131,60 @@ export class AppHome extends LitElementResponsive {
         <div id="hero">
           <div
             style="grid-column: 1;
-            grid-row: 2;
             width: ${this.getSizeGap(mediaQuery)}"
           ></div>
-          <div
-            id="hero__text"
-            style="grid-row: 2;
-            width: calc(100vw - ${Sizes.sideGap} - ${Sizes.sideGap})"
-          >
-            <h1>Ciao</h1>
-            <h2>Coglione su ${mediaQuery.name}</h2>
+
+          <div id="hero__text">
+            <h1 .style="${Typography.typeTitle}">Hello there</h1>
+            <h2 .style="${Typography.typeDetail}">
+              Split your money with your friends without struggling if you are
+              dumb at math 🙉🚀
+            </h2>
           </div>
+
+          <div id="hero__img">
+            <label>💸</label>
+          </div>
+
           <div
-            style="grid-column: 3;
-            grid-row: 2;
+            style="grid-column: 4;
             width: ${this.getSizeGap(mediaQuery)}"
           ></div>
         </div>
+        <mat-button
+          background="${Colors.primaryGreenFederation}"
+          icon="alt_route"
+          text="Start splitting"
+        ></mat-button>
+        <footer>
+          <div class="footer__right">
+            <div-spacer size="10vw"></div-spacer>
+            <p .style="${Typography.typeDetail}">
+              Made with ❤️ by <a href="https://github.com/jasoc">Parisius</a>
+            </p>
+          </div>
+
+          <div class="footer__left">
+            <mat-button
+              @click="${() =>
+                (location.href = "https://www.linkedin.com/in/paride-giunta-96264918b")}"
+              customImage="${this.getLinkedinImage()}"
+              background="none"
+            >
+            </mat-button>
+            <mat-button
+              @click="${() =>
+                (location.href = "https://github.com/jasoc/money-splitter")}"
+              customImage="${this.getGithubImage()}"
+              background="none"
+            >
+            </mat-button>
+            <div-spacer size="10vw"></div-spacer>
+          </div>
+        </footer>
       </div>
     `;
   }
-
-  onClick() {}
 }
 
 declare global {

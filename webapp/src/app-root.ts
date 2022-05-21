@@ -53,6 +53,10 @@ export class AppRoot extends LitElementThemable {
       left: 0;
       right: 0;
     }
+
+    #router {
+      height: 100%;
+    }
   `;
 
   override html() {

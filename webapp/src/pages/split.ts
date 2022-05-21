@@ -4,8 +4,8 @@ import { LitElementResponsive, LitElementThemable } from "../lit-components";
 import { Colors, defaultMediaQueries } from "../styles";
 import { MediaQuery, Themes } from "../types";
 
-@customElement("app-about")
-export class AppAbout extends LitElementResponsive {
+@customElement("app-split")
+export class AppSplit extends LitElementResponsive {
 
   defineMediaQuery(): MediaQuery[] {
     return defaultMediaQueries;
@@ -24,6 +24,6 @@ export class AppAbout extends LitElementResponsive {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "app-about": AppAbout;
+    "app-split": AppSplit;
   }
 }

@@ -22,9 +22,9 @@ export class TopBar extends LitElementResponsive {
         action: () => (location.href = "home"),
       },
       {
-        text: "About",
-        icon: "lightbulb",
-        action: () => (location.href = "about"),
+        text: "Split",
+        icon: "splitscreen",
+        action: () => (location.href = "split"),
       },
       {
         text: "Change theme",
@@ -49,7 +49,7 @@ export class TopBar extends LitElementResponsive {
       case Themes.dark:
         return css`
           #top-bar {
-            border-bottom: 1px solid #ffffff3d;
+            border-bottom: 1px solid #ffffff1a;
           }
           #top-bar .title {
             color: ${unsafeCSS(Colors.fontDark)};
@@ -124,10 +124,10 @@ export class TopBar extends LitElementResponsive {
                 </mat-button>
 
                 <mat-button
-                  icon="lightbulb"
+                  icon="splitscreen"
                   ?underline=${true}
-                  text="About"
-                  @click="${() => (location.href = "about")}"
+                  text="Split"
+                  @click="${() => (location.href = "split")}"
                   color="${this.getThemeIconColor()}"
                   background="none"
                 >
@@ -162,14 +162,13 @@ export class TopBar extends LitElementResponsive {
         </div>
 
         <div-spacer
-          size="${mediaQuery.name == "desktop" ? Sizes.sideGap : "3vw"}"
-        ></div-spacer>
+          size="${mediaQuery.name == "desktop" ? Sizes.sideGap : "3vw"}">
+        </div-spacer>
       </div>
     `;
   }
 
   toggleContextMenu(event) {
-    console.log("suca")
     this.contextMenuVisible = !this.contextMenuVisible;
     if (!window.onclick) {
       window.onclick = (event) => {
@@ -178,15 +177,6 @@ export class TopBar extends LitElementResponsive {
           ?.shadowRoot?.querySelector(".context-menu");
 
         if (contextMenuElement) {
-          console.log(
-            event.clientX,
-            event.clientY,
-            this.contextMenuX,
-            this.contextMenuY,
-            contextMenuElement.clientWidth,
-            contextMenuElement.clientHeight
-          );
-          
           const isInside = pointInsideArea(
             event.clientX,
             event.clientY,
@@ -196,8 +186,6 @@ export class TopBar extends LitElementResponsive {
             contextMenuElement.clientHeight
           );
           
-          console.log(isInside);
-
           if (!isInside) {
             this.contextMenuVisible = false;
           }

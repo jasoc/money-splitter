@@ -6,7 +6,7 @@ export function initRouter(element: HTMLElement) {
   router.setRoutes([
     { path: '/',      redirect:  '/home' },
     { path: '/home',  component: 'app-home' },
-    { path: '/about', component: 'app-about' },
+    { path: '/split', component: 'app-split' },
     { path: '(.*)',   component: 'not-found-view' }
   ]);
 }

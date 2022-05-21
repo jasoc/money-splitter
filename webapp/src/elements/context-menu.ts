@@ -1,7 +1,7 @@
 import { html, css, CSSResult, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LitElementResponsive } from "../lit-components";
-import { Colors, defaultMediaQueries, mat3Shadow } from "../styles";
+import { Colors, defaultMediaQueries, Materialize } from "../styles";
 import { MediaQuery, Themes } from "../types";
 
 import './mat-button';
@@ -70,7 +70,7 @@ export class ContextMenu extends LitElementResponsive {
     .context-menu {
       position: absolute;
       border-radius: 10px;
-      ${mat3Shadow};
+      ${Materialize.mat3Shadow};
     }
 
     mat-button {

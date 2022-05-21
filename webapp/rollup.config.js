@@ -12,7 +12,7 @@ export default {
     }),
     copy({
       targets: [
-        { src: 'src/assets/fonts/*', dest: 'dist/rollup/assets' },
+        { src: 'src/assets/*', dest: 'dist/rollup/assets' },
         { src: '../node_modules/material-icons/iconfont/*.woff*', dest: 'dist/rollup/assets' },
       ]
     })

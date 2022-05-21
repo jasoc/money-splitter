@@ -2,14 +2,10 @@ import { html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "./mat-icon";
 import "./div-spacer";
-import {
-  mat3Shadow,
-  mat3Border,
-  robotoFlexSemibold,
-} from "../styles/materialize.css";
 import "@polymer/paper-ripple";
 import { LitElementResponsive } from "../lit-components";
 import { MediaQuery } from "../types";
+import { Materialize, Typography } from "../styles";
 
 @customElement("mat-button")
 export class MatButton extends LitElementResponsive {
@@ -34,7 +30,7 @@ export class MatButton extends LitElementResponsive {
       align-items: center;
       cursor: pointer;
       transition-duration: 0.3s;
-      ${robotoFlexSemibold};
+      ${Typography.typeClick};
     }
 
     button .button-inner {
@@ -42,6 +38,11 @@ export class MatButton extends LitElementResponsive {
       display: flex;
       border-radius: 5px;
       flex-direction: row;
+      align-items: center;
+    }
+
+    button img {
+      width: 24px;
     }
 
     button .hover-bar {
@@ -87,6 +88,9 @@ export class MatButton extends LitElementResponsive {
   @property({ type: String })
   border: "min" | "shadow" | null = null;
 
+  @property({ type: String })
+  customImage?: string;
+
   override css() {
     return css`
 
@@ -108,23 +112,24 @@ export class MatButton extends LitElementResponsive {
         style="
           background: ${this.background};
           color: ${this.color};
-          ${this.border === "shadow" ? mat3Shadow : ""}
-          ${this.border === "min" ? mat3Border : ""}
+          ${this.border === "shadow" ? Materialize.mat3Shadow : ""}
+          ${this.border === "min" ? Materialize.mat3Border : ""}
         "
       >
-        <div class="button-inner">
+      <paper-ripple></paper-ripple>
+      <div class="button-inner">
           ${this.icon ? html` <mat-icon icon="${this.icon}"></mat-icon> ` : ""}
+          ${this.customImage ? html` <img src="${this.customImage}"> ` : ""}
           ${this.text && this.icon
             ? html` <div-spacer size="12px"></div-spacer> `
             : ""}
           ${this.text}
-          <paper-ripple></paper-ripple>
           <slot></slot>
           ${this.underline ? html`
             <div
               class="hover-bar"
-              style="background-color: ${this.color}"
-              ></div>
+              style="background-color: ${this.color}">
+            </div>
           ` : ""}
         </div>
       </button>
