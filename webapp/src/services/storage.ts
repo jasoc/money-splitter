@@ -31,9 +31,17 @@ export class StorageService {
   public get get(): StorageProperties {
     const read: string | null = localStorage.getItem("moneySPlitterStorage");
     if (read) {
-      return <StorageProperties>JSON.parse(read);
+      return this.createPropertiesFromObject(JSON.parse(read));
     } 
     return this.getDefaultStorage();
+  }
+
+  createPropertiesFromObject(obj: any): StorageProperties {
+    const def = this.getDefaultStorage();
+    return {
+      currentTheme: obj.currentTheme ?? def.currentTheme,
+      humans: obj.humans ?? def.humans,
+    }
   }
 
   private updateLocalStorageJson() {

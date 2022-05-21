@@ -42,7 +42,7 @@ export class AppRoot extends LitElementThemable {
   static override styles = css`
     #app-root {
       width: 100%;
-      height: 100vh;
+      min-height: 100%;
       display: flex;
       flex-direction: column;
     }
@@ -52,10 +52,12 @@ export class AppRoot extends LitElementThemable {
       top: 0;
       left: 0;
       right: 0;
+      z-index: 1;
     }
 
     #router {
       height: 100%;
+      z-index: 0;
     }
   `;
 

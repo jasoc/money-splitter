@@ -5,6 +5,8 @@ import { Services } from "../services";
 import { Colors, defaultMediaQueries } from "../styles";
 import { MediaQuery, Themes } from "../types";
 
+import "../elements/human-card";
+
 @customElement("app-split")
 export class AppSplit extends LitElementResponsive {
 
@@ -25,7 +27,7 @@ export class AppSplit extends LitElementResponsive {
     return html`
       <div id="split">
         ${Services.storage.get.humans.map((human) => html`
-          ${human.name}
+          <human-card .human=${human}></human-card>
         `)}
       </div>
     `;

@@ -16,6 +16,7 @@ export class AppHome extends LitElementResponsive {
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
+      width: 100%;
     }
 
     #hero,
@@ -29,7 +30,6 @@ export class AppHome extends LitElementResponsive {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 0 0 0 20px;
     }
 
     #hero #hero__img label {
@@ -45,7 +45,8 @@ export class AppHome extends LitElementResponsive {
       height: 100px;
     }
 
-    footer .footer__right, footer .footer__left {
+    footer .footer__right,
+    footer .footer__left {
       display: flex;
     }
   `;
@@ -111,6 +112,7 @@ export class AppHome extends LitElementResponsive {
           justify-content: center;
           flex-direction: column;
           align-items: center;
+          padding: 0 20px 0 0;
         }
       `;
     }
@@ -120,7 +122,14 @@ export class AppHome extends LitElementResponsive {
         display: grid;
         grid-template-columns: auto auto auto auto;
         grid-template-rows: 20vh auto 20vh;
+      }
+
+      #hero #hero__text {
         padding: 0 20px 0 0;
+      }
+
+      #hero #hero__img {
+        padding: 0 0 0 20px;
       }
     `;
   }
@@ -167,7 +176,8 @@ export class AppHome extends LitElementResponsive {
           <div class="footer__left">
             <mat-button
               @click="${() =>
-                (location.href = "https://www.linkedin.com/in/paride-giunta-96264918b")}"
+                (location.href =
+                  "https://www.linkedin.com/in/paride-giunta-96264918b")}"
               customImage="${this.getLinkedinImage()}"
               background="none"
             >
