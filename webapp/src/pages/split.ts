@@ -10,25 +10,42 @@ import "../elements/human-card";
 @customElement("app-split")
 export class AppSplit extends LitElementResponsive {
 
-  constructor() {
-    super();
-    Services.storage.set.humans.push({
-      name: "test",
-      money: [],
-      amountToPay: 10
-    });
+  static override styles = css`
+
+    #split #human-card__container human-card {
+      margin: 30px;
+    }
+  `;
+
+  override cssQueried(mediaQuery: MediaQuery): CSSResult {
+    if (mediaQuery.name == "mobile") {
+      return css`
+        #split #human-card__container {
+          display: flex;
+          flex-direction: column;
+        }
+      `;
+    }
+    return css`
+      #split #human-card__container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+      }
+    `;
   }
 
   defineMediaQuery(): MediaQuery[] {
     return defaultMediaQueries;
   }
-  
+
   override html() {
     return html`
       <div id="split">
-        ${Services.storage.get.humans.map((human) => html`
-          <human-card .human=${human}></human-card>
-        `)}
+        <div id="human-card__container">
+          ${Services.storage.get.humans.map(
+            (human) => html` <human-card .human=${human}></human-card> `
+          )}
+        </div>
       </div>
     `;
   }

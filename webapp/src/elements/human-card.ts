@@ -1,11 +1,16 @@
 import { IHuman } from '@money-splitter/splitter';
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, CSSResult, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { LitElementResponsive } from '../lit-components';
+import { Colors, defaultMediaQueries, Materialize, Typography } from '../styles';
+import { MediaQuery, Themes } from '../types';
 
 @customElement('human-card')
-export class HumanCard extends LitElement {
-  static override styles = css`
-  `;
+export class HumanCard extends LitElementResponsive {
+
+  defineMediaQuery(): MediaQuery[] {
+    return defaultMediaQueries;
+  }
 
   @property({ type: Object })
   human: IHuman = {
@@ -14,11 +19,47 @@ export class HumanCard extends LitElement {
     amountToPay: 0,
   };
 
-  override render() {
+  static override styles = css`
+    .human-card {
+      background-color: #d0f3b31c;
+      padding: 15px;
+      border-radius: 13px;
+      display: flex;
+      flex-direction: column;
+      ${Materialize.mat3Shadow};
+    }
+  `;
+
+  override cssThemed(theme: Themes): CSSResult {
+      if (theme == Themes.dark) {
+        return css`
+          * {
+            color: ${unsafeCSS(Colors.fontDark)};
+          }
+        `;
+      }
+
+      if (theme == Themes.light) {
+        return css`
+          * {
+            color: ${unsafeCSS(Colors.fontLight)};
+          }
+        `;
+      }
+
+      return css``;
+  }
+
+  override html() {
     return html`
       <div class="human-card">
-        <h1 class="name">${this.human.name}</h1>
-        <h3>${this.human.amountToPay}</h3>
+        <label .style="${Typography.typeTitle}">
+          ${this.human.name}
+        </label>
+        <div-spacer sizev="20px"></div-spacer>
+        <label .style="${Typography.typeDetailTitle}">
+          Has to pay: <span .style="${Typography.typeDetail}">${this.human.amountToPay}</span>
+        </label>
       </div>
     `;
   }

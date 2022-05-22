@@ -164,6 +164,7 @@ export class AppHome extends LitElementResponsive {
           background="${Colors.primaryGreenFederation}"
           icon="alt_route"
           text="Start splitting"
+          @click="${() => location.href = "split"}"
         ></mat-button>
         <footer>
           <div class="footer__right">
