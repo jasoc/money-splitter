@@ -66,6 +66,8 @@ export class AppRoot extends LitElementThemable {
     return html`
       <div id="app-root">
         <top-bar></top-bar>
+        <add-human-dialog>
+        </add-human-dialog>
         <div id="router"></div>
       </div>
     `;

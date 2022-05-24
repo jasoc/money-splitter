@@ -29,7 +29,6 @@ export class MatButton extends LitElementResponsive {
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      transition-duration: 0.3s;
       ${Typography.typeClick};
     }
 
