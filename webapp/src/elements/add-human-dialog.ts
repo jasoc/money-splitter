@@ -5,14 +5,11 @@ import { Colors, defaultMediaQueries, Materialize, Typography } from '../styles'
 import { MediaQuery, Themes } from '../types';
 import "./mat-button";
 import "./mat-dialog";
+import { MatDialog } from './mat-dialog';
 
 @customElement('add-human-dialog')
-export class AddHumanDialog extends LitElementResponsive {
+export class AddHumanDialog extends MatDialog {
 
-  defineMediaQuery(): MediaQuery[] {
-    return defaultMediaQueries;
-  }
-  
   override cssThemed(theme: Themes): CSSResult {
     if (theme == Themes.dark) {
       return css`
@@ -31,11 +28,15 @@ export class AddHumanDialog extends LitElementResponsive {
 
   override html() {
     return html`
-      <mat-dialog>
+      <mat-dialog ?active=${this.active}>
         <div class="add-human-dialog">
           <label .style="${Typography.typeTitle}">
             Add new human
           </label>
+          <mat-button
+            text="confirm"
+            icon="check"
+          ></mat-button>
         </div>
       </mat-dialog>
     `;

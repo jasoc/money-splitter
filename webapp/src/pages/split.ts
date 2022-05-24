@@ -82,6 +82,8 @@ export class AppSplit extends LitElementResponsive {
   override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
     return html`
       <div id="split">
+      
+        <add-human-dialog ?active=${true}></add-human-dialog>
 
         <div id="cards-controls">
           

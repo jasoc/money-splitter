@@ -1,12 +1,15 @@
-import { LitElement, html, css, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { LitElementResponsive } from '../lit-components';
-import { defaultMediaQueries, Materialize } from '../styles';
-import { MediaQuery, Themes } from '../types';
+import { LitElement, html, css, CSSResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { LitElementResponsive } from "../lit-components";
+import { defaultMediaQueries, Materialize } from "../styles";
+import { MediaQuery, Themes } from "../types";
 import "./mat-button";
 
-@customElement('mat-dialog')
+@customElement("mat-dialog")
 export class MatDialog extends LitElementResponsive {
+
+  @property({ type: Boolean })
+  active: boolean = false;
 
   defineMediaQuery(): MediaQuery[] {
     return defaultMediaQueries;
@@ -23,7 +26,7 @@ export class MatDialog extends LitElementResponsive {
       transform: translate(-50%, -50%);
       ${Materialize.mat3Shadow};
     }
-    
+
     .mat-dialog__inner {
       position: relative;
       padding: 60px 35px 40px 35px;
@@ -38,48 +41,57 @@ export class MatDialog extends LitElementResponsive {
   `;
 
   override cssThemed(theme: Themes): CSSResult {
-      if (theme == Themes.dark) {
-        return css`
-          .mat-dialog {
-            background-color: #19171c;
-          }
-        `;
-      }
-
+    if (theme == Themes.dark) {
       return css`
         .mat-dialog {
-          background-color: #e6e6e6;
+          background-color: #19171c;
         }
       `;
+    }
+
+    return css`
+      .mat-dialog {
+        background-color: #e6e6e6;
+      }
+    `;
   }
 
   getButtonColor() {
     if (this.currentTheme == Themes.dark) {
-      return '#fff';
+      return "#fff";
     }
 
-    return '#000';
+    return "#000";
+  }
+
+  close() {
+    this.active = false;
   }
 
   override html() {
     return html`
-      <div class="mat-dialog">
-        <div class="mat-dialog__inner">
-          <mat-button
-            icon="close"
-            class="close"
-            background="none"
-            color="${this.getButtonColor()}"
-          ></mat-button>
-          <slot></slot>
-        </div>
-      </div>
+      ${this.active
+        ? html`
+            <div class="mat-dialog">
+              <div class="mat-dialog__inner">
+                <mat-button
+                  icon="close"
+                  class="close"
+                  background="none"
+                  @click=${this.close}
+                  color="${this.getButtonColor()}"
+                ></mat-button>
+                <slot></slot>
+              </div>
+            </div>
+          `
+        : ""}
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mat-dialog': MatDialog;
+    "mat-dialog": MatDialog;
   }
 }
