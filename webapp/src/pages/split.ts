@@ -1,5 +1,5 @@
 import { html, css, unsafeCSS, CSSResult, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { LitElementResponsive, LitElementThemable } from "../lit-components";
 import { Services } from "../services";
 import { Colors, defaultMediaQueries, Typography } from "../styles";
@@ -7,7 +7,6 @@ import { MediaQuery, Themes } from "../types";
 
 import "../elements/human-card";
 import "../elements/mat-button";
-import "../elements/mat-dialog";
 
 @customElement("app-split")
 export class AppSplit extends LitElementResponsive {
@@ -61,8 +60,6 @@ export class AppSplit extends LitElementResponsive {
     return defaultMediaQueries;
   }
 
-  addHuman() {}
-
   override cssThemed(theme: Themes): CSSResult {
     if (theme == Themes.dark) {
       return css`
@@ -79,57 +76,55 @@ export class AppSplit extends LitElementResponsive {
     `;
   }
 
+  onHumanAdd(): void {
+    location.href = "humans/1";
+  }
+
   override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
     return html`
       <div id="split">
-      
-        <add-human-dialog ?active=${true}></add-human-dialog>
-
         <div id="cards-controls">
-          
           <label .style="${Typography.typeSubtitle}">
             Add people or start the calculation
           </label>
-          
-          ${mediaQuery.name == "mobile" ? html`
-            <div-spacer sizev="4vw"></div-spacer>
-            
-            <div id="cards-controls__buttons">
-              <mat-button
-                @click="${() => this.addHuman()}"
-                icon="add"
-                background="#1c7530"
-              ></mat-button>
-  
-              <div-spacer size="2vw"></div-spacer>
 
-              <mat-button
-                @click="${() => this.addHuman()}"
-                icon="functions"
-                background="#9f3a3a"
-              ></mat-button>
-            </div>
+          ${mediaQuery.name == "mobile"
+            ? html`
+                <div-spacer sizev="4vw"></div-spacer>
 
-          ` : html`
-            <div-spacer size="2vw"></div-spacer>
+                <div id="cards-controls__buttons">
+                  <mat-button
+                    icon="add"
+                    @click=${this.onHumanAdd}
+                    background="#1c7530"
+                  ></mat-button>
 
-            <mat-button
-              @click="${() => this.addHuman()}"
-              icon="add"
-              background="#1c7530"
-              text="Add a person"
-            ></mat-button>
+                  <div-spacer size="2vw"></div-spacer>
 
-            <div-spacer size="2vw"></div-spacer>
+                  <mat-button
+                    icon="functions"
+                    background="#9f3a3a"
+                  ></mat-button>
+                </div>
+              `
+            : html`
+                <div-spacer size="2vw"></div-spacer>
 
-            <mat-button
-              @click="${() => this.addHuman()}"
-              icon="functions"
-              background="#9f3a3a"
-              text="Calculate split"
-            ></mat-button>
-          `}
-          
+                <mat-button
+                  icon="add"
+                  @click=${this.onHumanAdd}
+                  background="#1c7530"
+                  text="Add a person"
+                ></mat-button>
+
+                <div-spacer size="2vw"></div-spacer>
+
+                <mat-button
+                  icon="functions"
+                  background="#9f3a3a"
+                  text="Calculate split"
+                ></mat-button>
+              `}
         </div>
         <div id="human-card__container">
           ${Services.storage.get.humans.map(

@@ -7,6 +7,7 @@ export function initRouter(element: HTMLElement) {
     { path: '/',      redirect:  '/home' },
     { path: '/home',  component: 'app-home' },
     { path: '/split', component: 'app-split' },
-    { path: '(.*)',   component: 'not-found-view' }
+    { path: '/humans/:id', component: 'app-add-human' },
+    // { path: '(.*)',   component: 'not-found-view' }
   ]);
 }
