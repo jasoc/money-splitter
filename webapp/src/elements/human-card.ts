@@ -6,6 +6,8 @@ import { Colors, defaultMediaQueries, Materialize, Typography } from '../styles'
 import { MediaQuery, Themes } from '../types';
 import "./div-spacer";
 import "./add-human-dialog";
+import "./mat-button";
+import { Services } from '../services';
 
 @customElement('human-card')
 export class HumanCard extends LitElementResponsive {
@@ -23,14 +25,34 @@ export class HumanCard extends LitElementResponsive {
 
   static override styles = css`
     .human-card {
-      background-color: #d0f3b31c;
+      /* background-color: #d0f3b31c; */
       padding: 15px;
       border-radius: 13px;
       display: flex;
+      flex-direction: row;
+      ${Materialize.mat3Border};
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .left {
+      display: flex;
       flex-direction: column;
-      ${Materialize.mat3Shadow};
     }
   `;
+
+  onHumanEdit(): void {
+    let i = 0;
+
+    Services.storage.get.humans
+      .forEach((human: IHuman, index: number) => {
+        if (this.human.name === human.name) {
+          i = index;
+        }
+      });
+    
+    location.href = `humans?id=${i}`;
+  }
 
   override cssThemed(theme: Themes): CSSResult {
       if (theme == Themes.dark) {
@@ -55,13 +77,21 @@ export class HumanCard extends LitElementResponsive {
   override html() {
     return html`
       <div class="human-card">
-        <label .style="${Typography.typeTitle}">
-          ${this.human.name}
-        </label>
-        <div-spacer sizev="20px"></div-spacer>
-        <label .style="${Typography.typeDetailTitle}">
-          Has to pay: <span .style="${Typography.typeDetail}">${this.human.amountToPay}</span>
-        </label>
+        <div class="left">
+          <label .style="${Typography.typeTitle}">
+            ${this.human.name}
+          </label>
+          <div-spacer sizev="20px"></div-spacer>
+          <label .style="${Typography.typeDetailTitle}">
+            Has to pay: <span .style="${Typography.typeDetail}">${this.human.amountToPay}</span>
+          </label>
+        </div>
+        <mat-button
+          text="Edit"
+          background="#174e36"
+          @click="${this.onHumanEdit}"
+          icon="edit"
+        ></mat-button>
       </div>
     `;
   }

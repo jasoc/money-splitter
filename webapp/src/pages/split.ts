@@ -7,6 +7,7 @@ import { MediaQuery, Themes } from "../types";
 
 import "../elements/human-card";
 import "../elements/mat-button";
+import { Pot, resolveAllRestLinear } from "@money-splitter/splitter";
 
 @customElement("app-split")
 export class AppSplit extends LitElementResponsive {
@@ -76,8 +77,13 @@ export class AppSplit extends LitElementResponsive {
     `;
   }
 
+  onCalculationStart(): void {
+    const finalPot = resolveAllRestLinear(Services.storage.get.humans);
+    console.log(finalPot.moves.map((move) => move.toString()));
+  }
+
   onHumanAdd(): void {
-    location.href = "humans/1";
+    location.href = 'humans?id=new';
   }
 
   override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
@@ -103,6 +109,7 @@ export class AppSplit extends LitElementResponsive {
 
                   <mat-button
                     icon="functions"
+                    @click=${this.onCalculationStart}
                     background="#9f3a3a"
                   ></mat-button>
                 </div>
@@ -122,6 +129,7 @@ export class AppSplit extends LitElementResponsive {
                 <mat-button
                   icon="functions"
                   background="#9f3a3a"
+                  @click=${this.onCalculationStart}
                   text="Calculate split"
                 ></mat-button>
               `}

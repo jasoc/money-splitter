@@ -1,4 +1,4 @@
-import { LitElement, html, css, CSSResult, unsafeCSS } from "lit";
+import { html, css, CSSResult, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LitElementThemable } from "../lit-components";
 import { Colors, Typography } from "../styles";
@@ -7,6 +7,16 @@ import "./mat-icon";
 
 @customElement("mat-input")
 export class MatInput extends LitElementThemable {
+
+  constructor() {
+    super();
+    setTimeout(() => {
+      if (this.startingText) {
+        this._onFocus = true;
+        this.requestUpdate();
+      }
+    });
+  }
 
   @property({ type: String })
   color: string = "royalblue";
@@ -25,6 +35,9 @@ export class MatInput extends LitElementThemable {
 
   @property({ type: String })
   placeholder: string = "Text here";
+
+  @property({ type: String })
+  startingText: string | null = null;
 
   @property({ attribute: false })
   onChange: (event: Event, text: string | null) => void = () => {};
@@ -48,6 +61,7 @@ export class MatInput extends LitElementThemable {
       justify-content: space-between;
       align-items: center;
       height: 20px;
+      padding: 13px;
     }
 
     .mat-input .placeholder {
@@ -107,11 +121,10 @@ export class MatInput extends LitElementThemable {
       <div
         class="mat-input"
         style="
-          border: ${this.onFocus
-          ? `3px solid ${this.color}`
-          : `1px solid grey`};
-          padding: ${this.onFocus ? `13px` : `15px`};
-          width: ${this.flexible ? '100%' : '300px'};
+          box-shadow: ${this.onFocus
+          ? `0px 0px 0px 3px ${this.color}`
+          : `0px 0px 0px 1px grey`};
+          width: ${this.flexible ? 'auto' : '300px'};
         "
       >
         <label
@@ -138,6 +151,8 @@ export class MatInput extends LitElementThemable {
           @blur="${() => (this._onFocus = false)}"
           @change=${this.onTextChange}
           .type="${this.type}"
+          step="0.01"
+          value=${this.startingText ? this.startingText : ''}
         />
         ${this.icon ? html`
           <mat-icon

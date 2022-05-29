@@ -6,6 +6,6 @@ export class Materialize {
     `;
     
     static mat3Border = css`
-        box-shadow: rgb(255 255 255 / 40%) 0px 0px 0px 1px inset;
+        box-shadow: #ffffff1a 0px 0px 0px 1px inset;
     `;
 }
