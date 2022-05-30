@@ -7,10 +7,14 @@ import { MediaQuery, Themes } from "../types";
 
 import "../elements/human-card";
 import "../elements/mat-button";
-import { Pot, resolveAllRestLinear } from "@money-splitter/splitter";
+import { Move, Token, Pot, resolveAllRestLinear, Entity } from "@money-splitter/splitter";
 
-@customElement("app-split")
+@customElement("app-split") 
 export class AppSplit extends LitElementResponsive {
+
+  @state()
+  private finalPot: Pot | null = null;
+
   static override styles = css`
     #split #cards-controls {
       display: flex;
@@ -22,6 +26,15 @@ export class AppSplit extends LitElementResponsive {
     }
     #split #human-card__container * {
       padding: 12px;
+    }
+    #split #result {
+      display: flex;
+      padding: 50px;
+      flex-direction: column;
+      align-items: center;
+    }
+    #split #result .move {
+      margin-bottom: 20px;
     }
   `;
 
@@ -78,8 +91,7 @@ export class AppSplit extends LitElementResponsive {
   }
 
   onCalculationStart(): void {
-    const finalPot = resolveAllRestLinear(Services.storage.get.humans);
-    console.log(finalPot.moves.map((move) => move.toString()));
+    this.finalPot = resolveAllRestLinear(Services.storage.get.humans);
   }
 
   onHumanAdd(): void {
@@ -139,9 +151,28 @@ export class AppSplit extends LitElementResponsive {
             (human) => html`<human-card .human=${human}></human-card>`
           )}
         </div>
+        ${this.finalPot ? html`
+          <div id="result">
+            <label .style=${Typography.typeTitle}>Final result</label>
+            <div-spacer sizev="50px"></div-spacer>
+            ${this.finalPot.moves.map((move) => html`
+              <label class="move" .style="${Typography.typeSubtitle}">
+                ${move.tokens().map((token) => html`
+                  <span>${this.switchToken(token)}</span>
+                `)}
+              </label>
+            `)}
+          </div>
+        ` : ''}
       </div>
     `;
   }
+
+  // switchToken(token: Token): TemplateResult {
+  //   if (token instanceof <Entity>{}) {
+  //     return html`<span>${token.name}</span>`;
+  //   }
+  // }
 }
 
 declare global {

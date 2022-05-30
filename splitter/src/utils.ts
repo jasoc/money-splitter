@@ -67,7 +67,7 @@ export class Utils {
         }
         return res;
     }
-    
+
     static roundMoney(money: number): number {
         return Math.round(money * 100) / 100;
     }
