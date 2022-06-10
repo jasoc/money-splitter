@@ -5,7 +5,6 @@ import { LitElementResponsive } from '../lit-components';
 import { Colors, defaultMediaQueries, Materialize, Typography } from '../styles';
 import { MediaQuery, Themes } from '../types';
 import "./div-spacer";
-import "./add-human-dialog";
 import "./mat-button";
 import { Services } from '../services';
 
