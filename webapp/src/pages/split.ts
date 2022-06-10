@@ -7,11 +7,20 @@ import { MediaQuery, Themes } from "../types";
 
 import "../elements/human-card";
 import "../elements/mat-button";
-import { Move, Token, Pot, resolveAllRestLinear, Entity } from "@money-splitter/splitter";
+import {
+  Move,
+  Token,
+  Pot,
+  resolveAllRestLinear,
+  Entity,
+  IsEntity,
+  IsMoneyArr,
+  IsString,
+  Money,
+} from "@money-splitter/splitter";
 
-@customElement("app-split") 
+@customElement("app-split")
 export class AppSplit extends LitElementResponsive {
-
   @state()
   private finalPot: Pot | null = null;
 
@@ -35,6 +44,17 @@ export class AppSplit extends LitElementResponsive {
     }
     #split #result .move {
       margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+    }
+    #split #result .move .chip {
+      padding: 6px 10px 6px 10px;
+      border-radius: 7px;
+      margin: 0 10px 0 10px;
+      cursor: pointer;
+      ${Typography.typeClick};
     }
   `;
 
@@ -95,7 +115,7 @@ export class AppSplit extends LitElementResponsive {
   }
 
   onHumanAdd(): void {
-    location.href = 'humans?id=new';
+    location.href = "humans?id=new";
   }
 
   override htmlQueried(mediaQuery: MediaQuery): TemplateResult<1 | 2> {
@@ -151,28 +171,66 @@ export class AppSplit extends LitElementResponsive {
             (human) => html`<human-card .human=${human}></human-card>`
           )}
         </div>
-        ${this.finalPot ? html`
-          <div id="result">
-            <label .style=${Typography.typeTitle}>Final result</label>
-            <div-spacer sizev="50px"></div-spacer>
-            ${this.finalPot.moves.map((move) => html`
-              <label class="move" .style="${Typography.typeSubtitle}">
-                ${move.tokens().map((token) => html`
-                  <span>${this.switchToken(token)}</span>
-                `)}
-              </label>
-            `)}
-          </div>
-        ` : ''}
+        ${this.finalPot
+          ? html`
+              <div id="result">
+                <label .style=${Typography.typeTitle}>Final result</label>
+                <div-spacer sizev="50px"></div-spacer>
+                ${this.finalPot.moves.map(
+                  (move) => html`
+                    <div class="move" .style="${Typography.typeSubtitle}">
+                      ${move.tokens().map((token) => this.switchToken(token))}
+                    </div>
+                  `
+                )}
+              </div>
+            `
+          : ""}
       </div>
     `;
   }
 
-  // switchToken(token: Token): TemplateResult {
-  //   if (token instanceof <Entity>{}) {
-  //     return html`<span>${token.name}</span>`;
-  //   }
-  // }
+  onEntityClick(name: string): void {
+    const index: number = Services.storage.get.humans
+      .map((h) => h.name)
+      .indexOf(name);
+    if (index !== -1) {
+      location.href = `humans?id=${index}`;
+    }
+  }
+
+  switchToken(token: Token): TemplateResult {
+    if (IsEntity(token)) {
+      return html`
+        <div
+          class="chip"
+          style="background-color: #2d47ae;"
+          @click=${() => this.onEntityClick(token.name)}
+        >
+          ${token.name}
+        </div>
+      `;
+    }
+    if (IsMoneyArr(token)) {
+      return html`
+        ${(<Money[]>token).map(
+          (t: Money) => html`
+            <div
+              class="chip"
+              style="background-color: #1d8842;"
+              @click=${() => this.onEntityClick(t.owner.name)}
+            >
+              ${t.amount} x ${t.quantity}
+            </div>
+          `
+        )}
+      `;
+    }
+    if (IsString(token)) {
+      return html`${token}`;
+    }
+    return html``;
+  }
 }
 
 declare global {
