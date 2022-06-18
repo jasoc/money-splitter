@@ -6,6 +6,9 @@
 
 Have you ever struggle when you go out with your friends, you pay different amounts of money at the restaurant, and you pay all in cash, and get lil crazy when you try to do the math with the money to fix the rest for all of you? This website is for you!
 
+### __Visiting__
+This project is currently hosted for testing purposes on my ddns at https://moneysplitter.jasoc.duckdns.org. You can check it out and try it, and give me some feedback if you want.
+
 ## __WTF?!__
 
 Yes. Take it or leave.
@@ -19,7 +22,7 @@ This is kind of a mono-repo. The structure is:
 | __/splitter__  | This folder contains the module that runs the algorithm behind the splitting of the money. |
 | __/webapp__    | This folder contains the webapp written in Lit, using rollup, postCSS webpack.             |
 | __/tests__     | Tests. Actually very few.                                                                  |
-| __/scripts__   | Some utility scripts                                                                       |
+| __/scripts__   | Some utility scripts.                                                                      |
 | __/resources__ | Various files.                                                                             |
 
 ## __Show me__
